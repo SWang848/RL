@@ -7,7 +7,7 @@ import random
 import time
 import numpy as np
 
-
+import tensorflow as tf
 import keras.backend as K
 import scipy.spatial
 from operator import mul
@@ -41,6 +41,21 @@ try:
 except:
     import Image
 
+def masked_error(args):
+    """
+        Masked asolute error function
+
+        Args:
+            y_true: Target output
+            y_pred: Actual output
+            mask: Scales the loss, should be compatible with the shape of 
+                    y_true, if an element of the mask is set to zero, the
+                    corresponding loss is ignored
+    """
+    y_true, y_pred, mask = args
+    loss = K.abs(y_true - y_pred)
+    loss *= mask
+    return K.sum(loss, axis=-2)
 
 class DeepAgent():
     def __init__(self,
@@ -205,7 +220,7 @@ class DeepAgent():
                     kernel_size=kernel_size,
                     strides=strides,
                     name="conv{}".format(c)))(x)
-            x = LEAKY_RELU()(x)
+            x = LeakyReLU(0.01)(x)
             x = TimeDistributed(MaxPooling2D())(x)
             if non_local_block:
                 x = self.non_local_block(x, 'embedded gaussian', True)
@@ -215,7 +230,7 @@ class DeepAgent():
             int(POST_CONV_DENSE_SIZE / self.scale),
             kernel_initializer=DENSE_INIT,
             name="post_conv_dense")(x)
-        x = LEAKY_RELU()(x)
+        x = LeakyReLU(0.01)(x)
         
 
         if self.lstm:
@@ -307,7 +322,7 @@ class DeepAgent():
 
         # Build a dueling head with the required amount of outputs
         head_dense = [
-            LEAKY_RELU()(Dense(
+            LeakyReLU(0.01)(Dense(
                 per_stream_dense_size,
                 name='dueling_0_{}'.format(a),
                 kernel_initializer=DENSE_INIT)(features))
@@ -316,7 +331,7 @@ class DeepAgent():
 
         for depth in range(1, DUELING_DEPTH):
             head_dense = [
-                LEAKY_RELU()(Dense(
+                LeakyReLU(0.01)(Dense(
                     per_stream_dense_size,
                     name='dueling_{}_{}'.format(depth, a),
                     kernel_initializer=DENSE_INIT)(head_dense[a]))
@@ -618,8 +633,8 @@ class DeepAgent():
                 episodes += 1
                 episode_steps = 0
             
-            if (self.steps % 200000) == 0:
-                self.save_weights()
+            # if (self.steps % 200000) == 0:
+            #     self.save_weights()
 
     def set_weights(self, weights):
         """Set current weight vector

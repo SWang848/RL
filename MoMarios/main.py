@@ -174,7 +174,7 @@ agent = DeepAgent(
     non_local=options.attention)
 
 steps_per_weight = 5000 if options.mode == "sparse" else 1
-log_file = open('output/logs/rewards_{}'.format(extra), 'w', 1)
+log_file = open('MoMarios/output/logs/rewards_{}'.format(extra), 'w')
 agent.train(environment=env, 
             log_file=log_file,
             learning_steps=options.steps,

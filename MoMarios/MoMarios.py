@@ -38,7 +38,7 @@ class MoMarios():
 
         return state
 
-    def step(self, action:int, frame_skip):
+    def step(self, action:int):
         state, reward, done, info = self.env.step(action)
 
         if self.single_stage and info["flag_get"]:
