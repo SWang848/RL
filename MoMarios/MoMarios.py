@@ -7,30 +7,25 @@ import numpy as np
 
 class MoMarios():
 
-    def __init__(self, is_render, life_done, singel_stage):
-        self.env = JoypadSpace(gym_super_mario_bros.make('SuperMarioBros-v0'), SIMPLE_MOVEMENT)
+    def __init__(self, life_done, single_stage, n_obj):
+        self.env = JoypadSpace(gym_super_mario_bros.make('SuperMarioBros-1-1-v0'), SIMPLE_MOVEMENT)
 
-        self.is_render = is_render
-        self.steps = 0
-        self.episode = 0
         self.reward = 0
         self.lives = 3
         self.coin = 0
-        self.x_pos = 0
+        self.x_pos = 40
         self.time = 0
         self.score = 0
         self.stage_bonus = 0
 
         self.life_done = life_done
-        self.single_stage = singel_stage
+        self.single_stage = single_stage
         
-        self.n_obj = 5
+        self.n_obj = n_obj
 
         self.reset()
 
     def reset(self):
-        self.steps = 0
-        self.episode += 1
         self.reward = 0
         self.lives = 3
         self.coin = 0
@@ -45,21 +40,20 @@ class MoMarios():
 
     def step(self, action:int, frame_skip):
         state, reward, done, info = self.env.step(action)
-        m_reward = np.zeros(self.n_obj)
 
         if self.single_stage and info["flag_get"]:
             self.stage_bonus = 10000
             done = True
         
-        # if self.life_done:
-        #     if self.lives > info['life'] and info['life'] > 0:
-        #         force_done = True
-        #         self.lives = info['life']
-        #     else:
-        #         force_done = done
-        #         self.lives = info['life']
-        # else:
-        #     force_done = done
+        if self.life_done:
+            if self.lives > info['life'] and info['life'] > 0:
+                force_done = True
+                self.lives = info['life']
+            else:
+                force_done = done
+                self.lives = info['life']
+        else:
+            force_done = done
 
         xpos_r = info["x_pos"] - self.x_pos
         self.x_pos = info["x_pos"]
@@ -86,12 +80,17 @@ class MoMarios():
         if coin_r > 0 or done:
             enemy_r = 0
         self.score = info['score']
-        
-        m_reward[0] = xpos_r
-        m_reward[1] = time_r
-        m_reward[2] = death_r
-        m_reward[3] = coin_r
-        m_reward[4] = enemy_r
+
+        m_reward = np.zeros(self.n_obj)
+        if self.n_obj == 2:
+            m_reward[0] = time_r
+            m_reward[1] = info['score']
+        elif self.n_obj == 5:
+            m_reward[0] = xpos_r
+            m_reward[1] = time_r
+            m_reward[2] = death_r
+            m_reward[3] = coin_r
+            m_reward[4] = enemy_r
         
         return state, m_reward, done, info
 
@@ -112,9 +111,9 @@ if __name__ == '__main__':
 
     # env.close()
 
-    test = MoMarios(True, True, True)
+    test = MoMarios(True, True, 5)
     done = True
-    for step in range(5000):
+    for step in range(500):
         if done:
             state = test.reset()
         state, reward, done, info = test.step(env.action_space.sample(), True)

@@ -5,7 +5,8 @@ import math
 import os
 import random
 import time
-from optparse import OptionParser
+import numpy as np
+
 
 import keras.backend as K
 import scipy.spatial
@@ -28,53 +29,17 @@ from utils import *
 from pprint import pprint
 
 import gym
-from deep_sea_treasure import DeepSeaTreasure
+import gym_super_mario_bros
+from gym_super_mario_bros.actions import SIMPLE_MOVEMENT
+from nes_py.wrappers import JoypadSpace
 
-physical_devices = tf.config.experimental.list_physical_devices('GPU')
-tf.config.experimental.set_memory_growth(physical_devices[0], True)
-
-def LEAKY_RELU(): return LeakyReLU(0.01)
-
-def generate_weights(count=1, n=3, m=1):
-    all_weights = []
-    target = np.random.dirichlet(np.ones(n), 1)[0]
-    prev_t = target
-    for _ in range(count // m):
-        target = np.random.dirichlet(np.ones(n), 1)[0]
-        if m == 1:
-            all_weights.append(target)
-        else:
-            for i in range(m):
-                i_w = target * (i + 1) / float(m) + prev_t * \
-                    (m - i - 1) / float(m)
-                all_weights.append(i_w)
-        prev_t = target + 0.
-
-    return all_weights
-
+# physical_devices = tf.config.experimental.list_physical_devices('GPU')
+# tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
 try:
     from PIL import Image
 except:
     import Image
-
-DEBUG = 1
-
-def masked_error(args):
-    """
-        Masked asolute error function
-
-        Args:
-            y_true: Target output
-            y_pred: Actual output
-            mask: Scales the loss, should be compatible with the shape of 
-                    y_true, if an element of the mask is set to zero, the
-                    corresponding loss is ignored
-    """
-    y_true, y_pred, mask = args
-    loss = K.abs(y_true - y_pred)
-    loss *= mask
-    return K.sum(loss, axis=-2)
 
 
 class DeepAgent():
@@ -109,7 +74,7 @@ class DeepAgent():
                  scale=1,
                  im_size=(IM_SIZE, IM_SIZE),
                  grayscale=BLACK_AND_WHITE,
-                 frames_per_state=2,
+                 frames_per_state=4,
                  max_episode_length=1000,
                  lstm=False,
                  non_local=False):
@@ -581,7 +546,7 @@ class DeepAgent():
             # next_state_raw_pixels = self.env.render(next_state_raw)
             # next_state = self.history.add_raw_frame(next_state_raw_pixels)
             
-            next_state_raw, reward, terminal, _ = self.env.step(action, self.frame_skip)
+            next_state_raw, reward, terminal, _ = self.env.step(action)
             next_state = self.history.add_raw_frame(next_state_raw)
 
             # memorize the experienced transition
@@ -1041,179 +1006,3 @@ class DeepAgent():
 
         self.model.save_weights(
             "output/networks/{}_{}.weights".format(self.name(), self.weights))
-
-
-
-if __name__ == "__main__":
-
-    # dst = gym.make('BountifulSeaTreasure-v1')
-    dst = DeepSeaTreasure(view=(5,5), full=True, scale=1)
-    obj_cnt = 2
-    steps = 10000
-    all_weights = generate_weights(count=steps, n=obj_cnt, m=1)
-    # shape (100000, 2)
-    # print(np.array(all_weights).shape)
-
-    parser = OptionParser()
-    parser.add_option(
-        "-l",
-        "--algorithm",
-        dest="alg",
-        choices=["scal", "mo", "mn", "cond", "uvfa", "random", "naive"],
-        default="cond",
-        help="Architecture type, one of 'scal','mo','meta','cond'")
-    parser.add_option(
-        "-m",
-        "--memory",
-        dest="mem",
-        default="DER",
-        choices=["STD", "DER", "SEL", "EXP"],
-        help="Memory type, one of 'std','crowd','exp','sel'")
-    parser.add_option(
-        "-d",
-        "--dupe",
-        dest="dupe",
-        default="CN",
-        choices=["none", "CN", "CN-UVFA", "CN-ACTIVE"],
-        help="Extra training")
-    parser.add_option(
-        "--end_e",
-        dest="end_e",
-        default="0.01",
-        help="Final epsilon value",
-        type=float)
-    parser.add_option(
-        "--start_e",
-        dest="start_e",
-        default="0.1",
-        help="start epsilon value",
-        type=float)
-    parser.add_option(
-        "-r", "--lr", dest="lr", default="0.02", help="learning rate", type=float)
-    parser.add_option(
-        "--clipnorm", dest="clipnorm", default="1", help="clipnorm", type=float)
-    parser.add_option(
-        "--mem-a", dest="mem_a", default="2.", help="memory error exponent", type=float)
-    parser.add_option(
-        "--mem-e", dest="mem_e", default="0.01", help="error offset", type=float)
-    parser.add_option(
-        "--clipvalue",
-        dest="clipvalue",
-        default="0.5",
-        help="clipvalue",
-        type=float)
-    parser.add_option(
-        "--momentum", dest="momentum", default="0.9", help="momentum", type=float)
-    parser.add_option(
-        "-u",
-        "--update_period",
-        dest="updates",
-        default="4",
-        help="Update interval",
-        type=int)
-    parser.add_option(
-        "--target-update",
-        dest="target_update_interval",
-        default="150",
-        help="Target update interval",
-        type=int)
-    parser.add_option(
-        "-f",
-        "--frame-skip",
-        dest="frame_skip",
-        default="1",
-        help="Frame skip",
-        type=int)
-    parser.add_option(
-        "--sample-size",
-        dest="sample_size",
-        default="16",
-        help="Sample batch size",
-        type=int)
-    parser.add_option(
-        "-g",
-        "--discount",
-        dest="discount",
-        default="0.95",
-        help="Discount factor",
-        type=float)
-    parser.add_option("--scale", dest="scale", default=1,
-                    help="Scaling", type=float)
-    parser.add_option("--anneal-steps",
-                    dest="steps", default=10000, help="steps",  type=int)
-    parser.add_option("-x", "--extra", dest="extra", default="")
-    parser.add_option("-p", "--reuse", dest="reuse",
-                    choices=["full", "sectionned", "proportional"], default="full")
-    parser.add_option(
-        "-c", "--mode", dest="mode", choices=["regular", "sparse"], default="sparse")
-    parser.add_option(
-        "-s", "--seed", dest="seed", default=None, help="Random Seed", type=int)
-    parser.add_option(
-        "--lstm", dest="lstm", default=False)
-    parser.add_option(
-        "--non_local", dest="attention", default=True)
-
-    (options, args) = parser.parse_args()
-
-    
-    extra = "3-newEnv-lstm-{} clipN-{} clipV-{} attention-{} a-{} m-{} s-{}  e-{} d-{} x-{} {} p-{} fs-{} d-{} up-{} lr-{} e-{} p-{} m-{}-{}".format(
-    options.lstm, options.clipnorm, options.clipvalue, options.attention,
-    options.alg, options.mem, options.seed,
-    options.end_e, options.dupe, options.extra, options.mode, options.reuse,
-    options.frame_skip,
-    np.round(options.discount, 4), options.updates,
-    np.round(options.lr, 4),
-    np.round(options.scale, 2), np.round(options.steps, 2), np.round(options.mem_a, 2), np.round(options.mem_e, 2))
-
-    agent = DeepAgent(
-        range(4), #range(ACTION_COUNT). e.g. range(6)
-        obj_cnt,
-        # steps, #memory size
-        # sample_size=16,
-        # weights=None,
-        # discount=0.95,
-        # learning_rate=0.02,
-        # target_update_interval=150,
-        # alg="scal",
-        # frame_skip=1,
-        # start_e=0.1,
-        # end_e=0.01,
-        # memory_type="DER",
-        # update_interval=4,
-        # reuse="full",
-        # mem_a=2.,
-        # mem_e=0.01,
-        # extra=extra,
-        # clipnorm=0,
-        # clipvalue=0,
-        # momentum=0.9,
-        # scale=1,
-        # dupe="CN"
-        
-        options.steps,
-        sample_size=options.sample_size,
-        weights=None,
-        discount=options.discount,
-        learning_rate=options.lr,
-        target_update_interval=options.target_update_interval,
-        alg=options.alg,
-        frame_skip=options.frame_skip,
-        start_e=options.start_e,
-        end_e=options.end_e,
-        memory_type=options.mem,
-        update_interval=options.updates,
-        reuse=options.reuse,
-        mem_a=options.mem_a,
-        mem_e=options.mem_e,
-        extra=extra,
-        clipnorm=options.clipnorm,
-        clipvalue=options.clipvalue,
-        momentum=options.momentum,
-        scale=options.scale,
-        dupe=None if options.dupe == "none" else options.dupe,
-        lstm=options.lstm,
-        non_local=options.attention)
-
-    steps_per_weight = 5000 if options.mode == "sparse" else 1
-    log_file = open('output/logs/rewards_{}'.format(extra), 'w', 1)
-    agent.train(dst, log_file, options.steps, all_weights, steps_per_weight, options.steps*10)
