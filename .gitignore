@@ -1,2 +1,215 @@
 
 gym-super-mario-bros/
+*.pyc
+*.01
+deepseaTreasure/output/logs/rewards_a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-10000 m-1-0.02
+*.weights
+*.weights
+*.weights
+DynMORL-master/output/networks/a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-100000 m-1-0.02_[0.79948589 0.20051411].weights
+MoMarios/output/.DS_Store
+MoMarios/output/logs/.DS_Store
+MoMarios/.DS_Store
+*.rtf
+ViZDoom/
+*.rtf
+ssh.rtf
+DynMORL-master/output/networks/test-newEnv-lstm-False clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.74812075 0.25187925].weights
+deepseaTreasure/output/logs/rewards_newEnv_a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-10000 m-1-0.02
+deepseaTreasure/output/logs/rewards_new_a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-10000 m-1-0.02
+deepseaTreasure/output/logs/rewards_a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-100000 m-1-0.02
+deepseaTreasure/.DS_Store
+deepseaTreasure/output/.DS_Store
+DynMORL-master/.DS_Store
+DynMORL-master/__pycache__/agent.cpython-36.pyc
+*.pyc
+DynMORL-master/__pycache__/deep_sea_treasure.cpython-36.pyc
+DynMORL-master/output/logs/rewards_newEnv_a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-10000 m-1-0.02
+.DS_Store
+.gitignore
+ssh.rtf
+DynMORL-master/.DS_Store
+DynMORL-master/__pycache__/agent.cpython-36.pyc
+DynMORL-master/__pycache__/config_agent.cpython-36.pyc
+DynMORL-master/__pycache__/deep_sea_treasure.cpython-36.pyc
+DynMORL-master/__pycache__/diverse_mem.cpython-36.pyc
+DynMORL-master/__pycache__/history.cpython-36.pyc
+DynMORL-master/__pycache__/minecart.cpython-36.pyc
+DynMORL-master/__pycache__/network.cpython-36.pyc
+DynMORL-master/__pycache__/utils.cpython-36.pyc
+DynMORL-master/output/logs/rewards_-clipN-1.0 clipV-0.5 a-scal m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_1-newEnv-lstm-False clipN-1.0 clipV-0.5 attention-True a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_1-newEnv-lstm-False clipN-1.0 clipV-0.5 attention-True a-cond m-STD s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_2-newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_2-newEnv-lstm-False clipN-1.0 clipV-0.5 a-cond m-STD s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_2-newEnv-lstm-False clipN-1.0 clipV-0.5 attention-True a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_2-newEnv-lstm-False clipN-1.0 clipV-0.5 attention-True a-cond m-STD s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_3-newEnv-lstm-False clipN-1.0 clipV-0.5 attention-True a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_3-newEnv-lstm-False clipN-1.0 clipV-0.5 attention-True a-cond m-STD s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_4-newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_5-newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_6-newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_7-newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_8-newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_9-newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_a-scal m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-10000 m-1-0.02
+DynMORL-master/output/logs/rewards_a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-100000 m-1-0.02
+DynMORL-master/output/logs/rewards_lstm-newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_multiply-newEnv-lstm-False clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_multiply2-newEnv-lstm-False clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_new_a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-10000 m-1-0.02
+DynMORL-master/output/logs/rewards_newEnv_a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-10000 m-1-0.02
+DynMORL-master/output/logs/rewards_newEnv-clipN-0.0 clipV-0.0 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.001 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_newEnv-clipN-0.0 clipV-0.0 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_newEnv-clipN-0.0 clipV-0.0 a-scal m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.0001 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-50000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-100000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_newEnv-clipN-1.0 clipV-0.5 a-scal m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_newEnv-lstm-False clipN-1.0 clipV-0.5 a-cond m-STD s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_newEnv-lstm-True clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_test-newEnv-lstm-False clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/networks/-clipN-1.0 clipV-0.5 a-scal m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.83505092 0.16494908].weights
+DynMORL-master/output/networks/1-newEnv-lstm-False clipN-1.0 clipV-0.5 attention-True a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.08899922 0.91100078].weights
+DynMORL-master/output/networks/1-newEnv-lstm-False clipN-1.0 clipV-0.5 attention-True a-cond m-STD s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.14085941 0.85914059].weights
+DynMORL-master/output/networks/2-newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.0036944 0.9963056].weights
+DynMORL-master/output/networks/2-newEnv-lstm-False clipN-1.0 clipV-0.5 a-cond m-STD s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.96250592 0.03749408].weights
+DynMORL-master/output/networks/2-newEnv-lstm-False clipN-1.0 clipV-0.5 attention-True a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.4668803 0.5331197].weights
+DynMORL-master/output/networks/2-newEnv-lstm-False clipN-1.0 clipV-0.5 attention-True a-cond m-STD s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.74034537 0.25965463].weights
+DynMORL-master/output/networks/3-newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.13764917 0.86235083].weights
+DynMORL-master/output/networks/3-newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.29640136 0.70359864].weights
+DynMORL-master/output/networks/3-newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.33393654 0.66606346].weights
+DynMORL-master/output/networks/3-newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.37047024 0.62952976].weights
+DynMORL-master/output/networks/3-newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.41727784 0.58272216].weights
+DynMORL-master/output/networks/3-newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.45783043 0.54216957].weights
+DynMORL-master/output/networks/3-newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.98583161 0.01416839].weights
+DynMORL-master/output/networks/3-newEnv-lstm-False clipN-1.0 clipV-0.5 attention-True a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.49261278 0.50738722].weights
+DynMORL-master/output/networks/3-newEnv-lstm-False clipN-1.0 clipV-0.5 attention-True a-cond m-STD s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.81537438 0.18462562].weights
+DynMORL-master/output/networks/a-scal m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.33779419 0.66220581].weights
+DynMORL-master/output/networks/a-scal m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.87389671 0.12610329].weights
+DynMORL-master/output/networks/a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-10000 m-1-0.02_[0.27897128 0.72102872].weights
+DynMORL-master/output/networks/a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-100000 m-1-0.02_[0.19024785 0.80975215].weights
+DynMORL-master/output/networks/a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-100000 m-1-0.02_[0.32276633 0.67723367].weights
+DynMORL-master/output/networks/a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-100000 m-1-0.02_[0.52135236 0.47864764].weights
+DynMORL-master/output/networks/a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-100000 m-1-0.02_[0.60713252 0.39286748].weights
+DynMORL-master/output/networks/a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-100000 m-1-0.02_[0.60916852 0.39083148].weights
+DynMORL-master/output/networks/a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-100000 m-1-0.02_[0.74144745 0.25855255].weights
+DynMORL-master/output/networks/a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-100000 m-1-0.02_[0.79948589 0.20051411].weights
+DynMORL-master/output/networks/a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-100000 m-1-0.02_[0.98785018 0.01214982].weights
+DynMORL-master/output/networks/Gray-a-scal m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.18442628 0.81557372].weights
+DynMORL-master/output/networks/lstm-newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.49312427 0.50687573].weights
+DynMORL-master/output/networks/multiply-newEnv-lstm-False clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.29507933 0.70492067].weights
+DynMORL-master/output/networks/multiply2-newEnv-lstm-False clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.16012565 0.83987435].weights
+DynMORL-master/output/networks/new_a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-10000 m-1-0.02_[0.8227359 0.1772641].weights
+DynMORL-master/output/networks/newEnv_a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-10000 m-1-0.02_[0.7700847 0.2299153].weights
+DynMORL-master/output/networks/newEnv_a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-10000 m-1-0.02_[0.70906825 0.29093175].weights
+DynMORL-master/output/networks/newEnv-clipN-0.0 clipV-0.0 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.001 e-1 p-10000 m-2.0-0.01_[0.52275643 0.47724357].weights
+DynMORL-master/output/networks/newEnv-clipN-0.0 clipV-0.0 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.47455319 0.52544681].weights
+DynMORL-master/output/networks/newEnv-clipN-0.0 clipV-0.0 a-scal m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.0001 e-1 p-10000 m-2.0-0.01_[0.15531438 0.84468562].weights
+DynMORL-master/output/networks/newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.47369012 0.52630988].weights
+DynMORL-master/output/networks/newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.95559862 0.04440138].weights
+DynMORL-master/output/networks/newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-50000 m-2.0-0.01_[0.0056548 0.9943452].weights
+DynMORL-master/output/networks/newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-50000 m-2.0-0.01_[0.22820463 0.77179537].weights
+DynMORL-master/output/networks/newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-50000 m-2.0-0.01_[0.24637723 0.75362277].weights
+DynMORL-master/output/networks/newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-100000 m-2.0-0.01_[0.07982374 0.92017626].weights
+DynMORL-master/output/networks/newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-100000 m-2.0-0.01_[0.38946106 0.61053894].weights
+DynMORL-master/output/networks/newEnv-clipN-1.0 clipV-0.5 a-scal m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.52533509 0.47466491].weights
+DynMORL-master/output/networks/newEnv-lstm-False clipN-1.0 clipV-0.5 a-cond m-STD s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.8433665 0.1566335].weights
+DynMORL-master/output/networks/newEnv-lstm-True clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.71971469 0.28028531].weights
+DynMORL-master/output/networks/test-newEnv-lstm-False clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.50343778 0.49656222].weights
+DynMORL-master/output/networks/test-newEnv-lstm-False clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.74812075 0.25187925].weights
+ssh.rtf
+DynMORL-master/.DS_Store
+DynMORL-master/__pycache__/agent.cpython-36.pyc
+DynMORL-master/__pycache__/config_agent.cpython-36.pyc
+DynMORL-master/__pycache__/deep_sea_treasure.cpython-36.pyc
+DynMORL-master/__pycache__/diverse_mem.cpython-36.pyc
+DynMORL-master/__pycache__/history.cpython-36.pyc
+DynMORL-master/__pycache__/minecart.cpython-36.pyc
+DynMORL-master/__pycache__/network.cpython-36.pyc
+DynMORL-master/__pycache__/utils.cpython-36.pyc
+DynMORL-master/output/logs/rewards_-clipN-1.0 clipV-0.5 a-scal m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_1-newEnv-lstm-False clipN-1.0 clipV-0.5 attention-True a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_1-newEnv-lstm-False clipN-1.0 clipV-0.5 attention-True a-cond m-STD s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_2-newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_2-newEnv-lstm-False clipN-1.0 clipV-0.5 a-cond m-STD s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_2-newEnv-lstm-False clipN-1.0 clipV-0.5 attention-True a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_2-newEnv-lstm-False clipN-1.0 clipV-0.5 attention-True a-cond m-STD s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_3-newEnv-lstm-False clipN-1.0 clipV-0.5 attention-True a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_3-newEnv-lstm-False clipN-1.0 clipV-0.5 attention-True a-cond m-STD s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_4-newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_5-newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_6-newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_7-newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_8-newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_9-newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_a-scal m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-10000 m-1-0.02
+DynMORL-master/output/logs/rewards_a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-100000 m-1-0.02
+DynMORL-master/output/logs/rewards_lstm-newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_multiply-newEnv-lstm-False clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_multiply2-newEnv-lstm-False clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_new_a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-10000 m-1-0.02
+DynMORL-master/output/logs/rewards_newEnv_a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-10000 m-1-0.02
+DynMORL-master/output/logs/rewards_newEnv-clipN-0.0 clipV-0.0 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.001 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_newEnv-clipN-0.0 clipV-0.0 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_newEnv-clipN-0.0 clipV-0.0 a-scal m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.0001 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-50000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-100000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_newEnv-clipN-1.0 clipV-0.5 a-scal m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_newEnv-lstm-False clipN-1.0 clipV-0.5 a-cond m-STD s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_newEnv-lstm-True clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/logs/rewards_test-newEnv-lstm-False clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01
+DynMORL-master/output/networks/-clipN-1.0 clipV-0.5 a-scal m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.83505092 0.16494908].weights
+DynMORL-master/output/networks/1-newEnv-lstm-False clipN-1.0 clipV-0.5 attention-True a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.08899922 0.91100078].weights
+DynMORL-master/output/networks/1-newEnv-lstm-False clipN-1.0 clipV-0.5 attention-True a-cond m-STD s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.14085941 0.85914059].weights
+DynMORL-master/output/networks/2-newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.0036944 0.9963056].weights
+DynMORL-master/output/networks/2-newEnv-lstm-False clipN-1.0 clipV-0.5 a-cond m-STD s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.96250592 0.03749408].weights
+DynMORL-master/output/networks/2-newEnv-lstm-False clipN-1.0 clipV-0.5 attention-True a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.4668803 0.5331197].weights
+DynMORL-master/output/networks/2-newEnv-lstm-False clipN-1.0 clipV-0.5 attention-True a-cond m-STD s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.74034537 0.25965463].weights
+DynMORL-master/output/networks/3-newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.13764917 0.86235083].weights
+DynMORL-master/output/networks/3-newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.29640136 0.70359864].weights
+DynMORL-master/output/networks/3-newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.33393654 0.66606346].weights
+DynMORL-master/output/networks/3-newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.37047024 0.62952976].weights
+DynMORL-master/output/networks/3-newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.41727784 0.58272216].weights
+DynMORL-master/output/networks/3-newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.45783043 0.54216957].weights
+DynMORL-master/output/networks/3-newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.98583161 0.01416839].weights
+DynMORL-master/output/networks/3-newEnv-lstm-False clipN-1.0 clipV-0.5 attention-True a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.49261278 0.50738722].weights
+DynMORL-master/output/networks/3-newEnv-lstm-False clipN-1.0 clipV-0.5 attention-True a-cond m-STD s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.81537438 0.18462562].weights
+DynMORL-master/output/networks/a-scal m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.33779419 0.66220581].weights
+DynMORL-master/output/networks/a-scal m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.87389671 0.12610329].weights
+DynMORL-master/output/networks/a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-10000 m-1-0.02_[0.27897128 0.72102872].weights
+DynMORL-master/output/networks/a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-100000 m-1-0.02_[0.19024785 0.80975215].weights
+DynMORL-master/output/networks/a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-100000 m-1-0.02_[0.32276633 0.67723367].weights
+DynMORL-master/output/networks/a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-100000 m-1-0.02_[0.52135236 0.47864764].weights
+DynMORL-master/output/networks/a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-100000 m-1-0.02_[0.60713252 0.39286748].weights
+DynMORL-master/output/networks/a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-100000 m-1-0.02_[0.60916852 0.39083148].weights
+DynMORL-master/output/networks/a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-100000 m-1-0.02_[0.74144745 0.25855255].weights
+DynMORL-master/output/networks/a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-100000 m-1-0.02_[0.79948589 0.20051411].weights
+DynMORL-master/output/networks/a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-100000 m-1-0.02_[0.98785018 0.01214982].weights
+DynMORL-master/output/networks/Gray-a-scal m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.18442628 0.81557372].weights
+DynMORL-master/output/networks/lstm-newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.49312427 0.50687573].weights
+DynMORL-master/output/networks/multiply-newEnv-lstm-False clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.29507933 0.70492067].weights
+DynMORL-master/output/networks/multiply2-newEnv-lstm-False clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.16012565 0.83987435].weights
+DynMORL-master/output/networks/new_a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-10000 m-1-0.02_[0.8227359 0.1772641].weights
+DynMORL-master/output/networks/newEnv_a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-10000 m-1-0.02_[0.7700847 0.2299153].weights
+DynMORL-master/output/networks/newEnv_a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-10000 m-1-0.02_[0.70906825 0.29093175].weights
+DynMORL-master/output/networks/newEnv-clipN-0.0 clipV-0.0 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.001 e-1 p-10000 m-2.0-0.01_[0.52275643 0.47724357].weights
+DynMORL-master/output/networks/newEnv-clipN-0.0 clipV-0.0 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.47455319 0.52544681].weights
+DynMORL-master/output/networks/newEnv-clipN-0.0 clipV-0.0 a-scal m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.0001 e-1 p-10000 m-2.0-0.01_[0.15531438 0.84468562].weights
+DynMORL-master/output/networks/newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.47369012 0.52630988].weights
+DynMORL-master/output/networks/newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.95559862 0.04440138].weights
+DynMORL-master/output/networks/newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-50000 m-2.0-0.01_[0.0056548 0.9943452].weights
+DynMORL-master/output/networks/newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-50000 m-2.0-0.01_[0.22820463 0.77179537].weights
+DynMORL-master/output/networks/newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-50000 m-2.0-0.01_[0.24637723 0.75362277].weights
+DynMORL-master/output/networks/newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-100000 m-2.0-0.01_[0.07982374 0.92017626].weights
+DynMORL-master/output/networks/newEnv-clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-100000 m-2.0-0.01_[0.38946106 0.61053894].weights
+DynMORL-master/output/networks/newEnv-clipN-1.0 clipV-0.5 a-scal m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.52533509 0.47466491].weights
+DynMORL-master/output/networks/newEnv-lstm-False clipN-1.0 clipV-0.5 a-cond m-STD s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.8433665 0.1566335].weights
+DynMORL-master/output/networks/newEnv-lstm-True clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.71971469 0.28028531].weights
+DynMORL-master/output/networks/test-newEnv-lstm-False clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.50343778 0.49656222].weights
+DynMORL-master/output/networks/test-newEnv-lstm-False clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.74812075 0.25187925].weights
+DynMORL-master/.DS_Store
+ssh.rtf
