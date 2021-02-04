@@ -93,7 +93,7 @@ class DeepAgent():
                  end_impsam=1,
                  lstm=False,
                  non_local=False,
-                 temp_att=False):
+                 temproal_att=False):
         """Agent implementing both Multi-Network, Multi-Head and Single-head 
             algorithms
 
