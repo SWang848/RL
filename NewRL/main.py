@@ -24,7 +24,7 @@ parser.add_option(
     "--algorithm",
     dest="alg",
     choices=["scal", "mo", "mn", "cond", "uvfa", "random","naive"],
-    default="scal",
+    default="cond",
     help="Architecture type, one of 'scal','mo','meta','cond'")
 parser.add_option(
     "-m",

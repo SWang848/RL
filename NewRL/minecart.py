@@ -405,6 +405,7 @@ class Minecart:
                 filename: JSON configuration filename
         """
         import json
+        print(filename)
         data = json.load(open(filename))
         ore_colors = None if "ore_colors" not in data else data["ore_colors"]
         minecart = Minecart(

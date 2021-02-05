@@ -164,6 +164,7 @@ class DeepAgent():
         self.actions = actions
         self.lstm = lstm
         self.non_local = non_local
+        self.temporal_att = temproal_att
 
         self.memory_size = memory_size
 
@@ -194,9 +195,9 @@ class DeepAgent():
         #inputs.shape should be (batch_size, time_step, input_dim)
         attention = Permute([2, 1])(inputs)
         attention = Dense(self.frames_per_state, activation='softmax')(attention)
-        attention = Lambda(lambda x: K.mean(x, axis=1), name='dim_reduction')
+        attention = Lambda(lambda x: K.mean(x, axis=1), name='dim_reduction')(attention)
         attention = RepeatVector(inputs.shape[2])(attention)
-        alphas = Permute([2, 1], name='attention alphas')(attention)
+        alphas = Permute([2, 1], name='attention_alphas')(attention)
         output_attention = Multiply()([inputs, alphas])
         
         return output_attention
@@ -207,28 +208,28 @@ class DeepAgent():
 
         x = Lambda(lambda x: x/255., name="input_normalizer")(state_input)
 
-        conv1 = TimeDistributed(Conv2D(32, (11, 11), strides=4, activations="relu", name="conv1",
-                                input_shape=((self.frames_per_state, )+self.history.im_shape))(state_input)
+        conv1 = TimeDistributed(Conv2D(32, (6, 6), strides=2, activation="relu", name="conv1", \
+                        input_shape=((self.frames_per_state, )+self.history.im_shape)))(state_input)
         pool1 = TimeDistributed(MaxPooling2D(name="pool1"))(conv1)
-        conv2 = TimeDistributed(Conv2D(64, (5, 5), strides=2, activation="relu", name="conv2"))(pool1)
+        conv2 = TimeDistributed(Conv2D(48, (5, 5), strides=2, activation="relu", name="conv2"))(pool1)
         pool2 = TimeDistributed(MaxPooling2D(name="pool2"))(conv2)
-        conv3 = TimeDistributed(Conv2D(64, (3, 3), strides=2, activation="relu", name="conv3"))(pool2)
+        # conv3 = TimeDistributed(Conv2D(64, (3, 3), strides=2, activation="relu", name="conv3"))(pool2)
 
-        flatten1 = TimeDistributed(Flatten(name="flatten1"))(conv3)
+        flatten1 = TimeDistributed(Flatten(name="flatten1"))(pool2)
         if self.lstm:
             lstm1 = LSTM(512, return_sequences=False, stateful=False, name="lstm1")(flatten1)
-        elif self.temp_att:
-            lstm1 = Bidirectional(LSTM(512, return_sequences=True, stateful=False), merge_mode='sum')(flatten1)
-            lstm2 = Bidirectional(LSTM(512, return_sequences=True, stateful=False), merge_mode='sum')(lstm1)
+        elif self.temporal_att:
+            lstm1 = Bidirectional(LSTM(256, return_sequences=True, stateful=False), merge_mode='sum')(flatten1)
+            lstm2 = Bidirectional(LSTM(256, return_sequences=True, stateful=False), merge_mode='sum')(lstm1)
             attention = self.attention_block(lstm2)
             output = Flatten()(attention)
         
         features = Concatenate(name="features")([weight_input, output]) if ("cond" in self.alg or "uvfa" in self.alg) else output
         
         value_dense = Dense(512, activation="relu", name="value_fc")(features)
-        value = Dense(2, activation='relu', name='value_out')(value_dense)
+        value = Dense(self.obj_cnt, activation='relu', name='value_out')(value_dense)
         action_dense = Dense(512, activation="relu", name="action_fc")(features)
-        action = Dense(10, activation='relu', name='action_out')(action_dense)
+        action = Dense(self.obj_cnt*self.action_count, activation='relu', name='action_out')(action_dense)
 
         value_reshape = Reshape((1, self.obj_cnt))(value)
         action_reshape = Reshape((self.action_count, self.obj_cnt))(action)
@@ -255,7 +256,7 @@ class DeepAgent():
 
     def build_models(self):
 
-        self.trainable_model, self.main_model = self.build_networks()
+        self.trainable_model, self.model = self.build_networks()
         _, self.target_model = self.build_networks()
 
 
@@ -265,10 +266,10 @@ class DeepAgent():
             lambda y_true, y_pred: K.zeros_like(y_pred),
         ]
 
-        trainable_model.compile(loss=losses, optimizer=SGD(lr=self.lr, clipnorm=self.clipnorm, clipvalue=self.clipvalue, \
+        self.trainable_model.compile(loss=losses, optimizer=SGD(lr=self.lr, clipnorm=self.clipnorm, clipvalue=self.clipvalue, \
                                 momentum=self.momentum, nesterov=self.nesterov))
 
-        self.main_model.summary()
+        self.model.summary()
         self.update_target()
 
     def non_local_block(self, input:tf.Tensor, mode:str, residual:bool) -> tf.Tensor: 
