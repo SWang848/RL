@@ -110,13 +110,14 @@ parser.add_option(
 parser.add_option(
     "--non_locol", dest="non_local", default=False, help="non_local_attention")
 parser.add_option("--lstm", dest="lstm", default=False)
-parser.add_option("--temporal_att", dest="temp_att", default=True)
+parser.add_option("--temporal_att", dest="temp_att", default=False)
+parser.add_option("--memory_net", dest="memory_net", default=True)
 # parser.add_option("--temporal_at", dest="temporal_at", default=True)
 
 (options, args) = parser.parse_args()
 
-extra = "temp_att-{} nl-{} lstm-{} a-{} m-{} s-{}  e-{} d-{} x-{} {} p-{} fs-{} d-{} up-{} lr-{} e-{} p-{} m-{}-{}".format(
-    options.temp_att,
+extra = "memory_net-{} temp_att-{} nl-{} lstm-{} a-{} m-{} s-{}  e-{} d-{} x-{} {} p-{} fs-{} d-{} up-{} lr-{} e-{} p-{} m-{}-{}".format(
+    options.memory_net, options.temp_att,
     options.non_local, options.lstm,
     options.alg, options.mem, options.seed,
     options.end_e, options.dupe, options.extra, options.mode, options.reuse,
@@ -160,7 +161,8 @@ agent = DeepAgent(
     dupe=None if options.dupe == "none" else options.dupe,
     lstm=options.lstm,
     non_local=options.non_local,
-    temproal_att=options.temp_att)
+    temproal_att=options.temp_att,
+    memory_net=options.memory_net)
 
 steps_per_weight = 50000 if options.mode == "sparse" else 1
 log_file = open('output/logs/rewards_{}'.format(extra), 'w', 1)

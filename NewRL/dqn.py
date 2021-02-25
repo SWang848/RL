@@ -21,6 +21,7 @@ from keras.utils import np_utils
 
 from config_agent import *
 from diverse_mem import DiverseMemory
+from memory_network import MemoryNetwork
 from history import *
 from utils import *
 
@@ -87,13 +88,14 @@ class DeepAgent():
                  scale=1,
                  im_size=(IM_SIZE, IM_SIZE),
                  grayscale=BLACK_AND_WHITE,
-                 frames_per_state=2,
+                 frames_per_state=10,
                  max_episode_length=1000,
                  start_impsam=1,
                  end_impsam=1,
                  lstm=False,
                  non_local=False,
-                 temproal_att=False):
+                 temproal_att=False,
+                 memory_net=False):
         """Agent implementing both Multi-Network, Multi-Head and Single-head 
             algorithms
 
@@ -165,6 +167,7 @@ class DeepAgent():
         self.lstm = lstm
         self.non_local = non_local
         self.temporal_att = temproal_att
+        self.memory_net = memory_net
 
         self.memory_size = memory_size
 
@@ -224,6 +227,15 @@ class DeepAgent():
             attention = self.attention_block(lstm2)
             output = Flatten()(attention)
         
+        elif self.memory_net:
+            context, last_state_output, _ = LSTM(256, return_sequences=True, return_state=True, name="memory_context")(flatten1)
+            conc = Concatenate(name="conc")([flatten1, context])
+            memory = MemoryNetwork(256, memory_size=10, name='o_t')(conc)
+
+            output = Dense(256)(last_state_output)
+            output = Add()([output, memory])
+            output = Dense(256, activation='relu')(output)
+
         features = Concatenate(name="features")([weight_input, output]) if ("cond" in self.alg or "uvfa" in self.alg) else output
         
         value_dense = Dense(512, activation="relu", name="value_fc")(features)
@@ -234,7 +246,7 @@ class DeepAgent():
         value_reshape = Reshape((1, self.obj_cnt))(value)
         action_reshape = Reshape((self.action_count, self.obj_cnt))(action)
 
-        action_mean = Lambda(lambda x: K.mean(x, axis=1, keepdims=False), name='action_mean')(action_reshape)
+        action_mean = Lambda(lambda x: K.mean(x, axis=1, keepdims=True), name='action_mean')(action_reshape)
         output = Lambda(lambda x: x[0] + x[1] - x[2], name="output")([action_reshape, value_reshape, action_mean])
         
         y_pred = Reshape((self.action_count, self.qvalue_dim()))(output)
@@ -812,6 +824,7 @@ class DeepAgent():
 
         # Predict both the model and target q-values
         model_q = self.model.predict(inp, batch_size=200)
+
         target_q = self.target_model.predict(inp, batch_size=200)
 
         return model_q, target_q, w_batch, states
