@@ -167,4 +167,4 @@ agent = DeepAgent(
 steps_per_weight = 50000 if options.mode == "sparse" else 1
 log_file = open('output/logs/rewards_{}'.format(extra), 'w', 1)
 agent.train(minecart, log_file,
-            options.steps, all_weights, steps_per_weight, options.steps*10)
+            options.steps, all_weights, steps_per_weight, options.steps*5)
