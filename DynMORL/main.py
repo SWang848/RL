@@ -110,13 +110,14 @@ parser.add_option(
 parser.add_option(
     "--non_locol", dest="non_local", default=False, help="non_local_attention")
 parser.add_option("--lstm", dest="lstm", default=False)
-parser.add_option("--temporal_att", dest="temp_att", default=False)
-# parser.add_option("--temporal_at", dest="temporal_at", default=True)
+parser.add_option("--temp_att", dest="temp_att", default=False, help="temporal attention")
+parser.add_option("--spa_att", dest="spa_att", default=False, help="space attention")
+parser.add_option("--memory_net", dest="memory_net", default=True)
 
 (options, args) = parser.parse_args()
 
-extra = "temp_att-{} nl-{} lstm-{} a-{} m-{} s-{}  e-{} d-{} x-{} {} p-{} fs-{} d-{} up-{} lr-{} e-{} p-{} m-{}-{}".format(
-    options.temp_att,
+extra = "memory_net-{} temp_att-{} nl-{} lstm-{} a-{} m-{} s-{}  e-{} d-{} x-{} {} p-{} fs-{} d-{} up-{} lr-{} e-{} p-{} m-{}-{}".format(
+    options.memory_net, options.temp_att,
     options.non_local, options.lstm,
     options.alg, options.mem, options.seed,
     options.end_e, options.dupe, options.extra, options.mode, options.reuse,
@@ -130,10 +131,14 @@ np.random.seed(options.seed)
 
 json_file = "mine_config.json"
 minecart = Minecart.from_json(json_file)
-
 obj_cnt = minecart.obj_cnt()
 all_weights = generate_weights(
     count=options.steps, n=minecart.obj_cnt(), m=1 if options.mode == "sparse" else 10)
+
+
+# b= [i.tolist() for i in minecart.pareto_coverage_set()]
+# print(np.array(b).T)
+# print(minecart.convex_coverage_set())
 
 agent = DeepAgent(
     Minecart.action_space(),
@@ -160,9 +165,10 @@ agent = DeepAgent(
     dupe=None if options.dupe == "none" else options.dupe,
     lstm=options.lstm,
     non_local=options.non_local,
-    temproal_att=options.temp_att)
+    temp_att=options.temp_att,
+    memory_net=options.memory_net)
 
 steps_per_weight = 50000 if options.mode == "sparse" else 1
 log_file = open('output/logs/rewards_{}'.format(extra), 'w', 1)
 agent.train(minecart, log_file,
-            options.steps, all_weights, steps_per_weight, options.steps*10)
+            options.steps, all_weights, steps_per_weight, options.steps*5)
