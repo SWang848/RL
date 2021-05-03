@@ -213,3 +213,59 @@ DynMORL-master/output/networks/test-newEnv-lstm-False clipN-1.0 clipV-0.5 a-cond
 DynMORL-master/output/networks/test-newEnv-lstm-False clipN-1.0 clipV-0.5 a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01_[0.74812075 0.25187925].weights
 DynMORL-master/.DS_Store
 ssh.rtf
+deepseaTreasure/***logs/PER regular reward.csv
+deepseaTreasure/***logs/PER sparse reward.csv
+deepseaTreasure/***logs/PER stuck in 48 and loss very low.csv
+deepseaTreasure/***logs/PER stuck in 48 and loss very low.png
+deepseaTreasure/***logs/rewards_48.2
+deepseaTreasure/***logs/rewards_AP_1-regular
+deepseaTreasure/***logs/rewards_AP_1-regular.csv
+deepseaTreasure/***logs/rewards_AP_1-sparse
+deepseaTreasure/***logs/rewards_AP_1-sparse.csv
+deepseaTreasure/logs/rewards_18.csv
+deepseaTreasure/logs/rewards_48.2
+deepseaTreasure/logs/rewards_48.2.csv
+deepseaTreasure/logs/rewards_48.2+72
+deepseaTreasure/logs/rewards_48.2+72.csv
+deepseaTreasure/logs/rewards_48.2+76
+deepseaTreasure/logs/rewards_48.2+76.csv
+deepseaTreasure/logs/rewards_72
+deepseaTreasure/logs/rewards_76.3
+deepseaTreasure/logs/rewards_90
+deepseaTreasure/logs/rewards_100
+deepseaTreasure/logs/rewards_100.csv
+deepseaTreasure/logs/rewards_120.2
+deepseaTreasure/logs/rewards_124.2
+deepseaTreasure/logs/rewards_a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-10000 m-1-0.02
+deepseaTreasure/logs/rewards_a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-100000 m-1-0.02
+deepseaTreasure/logs/rewards_AP_1-regular
+deepseaTreasure/logs/rewards_AP_1-regular.csv
+deepseaTreasure/logs/rewards_AP_1-sparse
+deepseaTreasure/logs/rewards_AP_1-sparse.csv
+deepseaTreasure/logs/rewards_linearly
+deepseaTreasure/logs/rewards_linearly.csv
+deepseaTreasure/logs/rewards_NER_1-lstm-False clipN-1.0 clipV-0.5 attention-False a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01.csv
+deepseaTreasure/logs/rewards_NER_1-lstm-False clipN-1.0 clipV-0.5 attention-False a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01.xlsx
+deepseaTreasure/logs/rewards_new_a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-10000 m-1-0.02
+deepseaTreasure/logs/rewards_newEnv_a-scal m-STD s-None  e-0.05 d-False x- sparse p-full fs-4 d-0.98 up-4 lr-0.02 e-1 p-10000 m-1-0.02
+deepseaTreasure/logs/rewards_PER_1-lstm-False clipN-1.0 clipV-0.5 attention-False a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01.csv
+deepseaTreasure/logs/rewards_PER_1-lstm-False clipN-1.0 clipV-0.5 attention-False a-cond m-DER s-None  e-0.01 d-CN x- sparse p-full fs-1 d-0.95 up-4 lr-0.02 e-1 p-10000 m-2.0-0.01.xlsx
+deepseaTreasure/***logs/rewards_AP_1-regular-transitions_logs
+deepseaTreasure/***logs/rewards_AP_2-regular
+deepseaTreasure/***logs/rewards_AP_2-regular-transitions_logs
+deepseaTreasure/***logs/rewards_AP_2-regular.csv
+deepseaTreasure/***logs/rewards_P_1-regular
+deepseaTreasure/***logs/rewards_P_1-regular-transitions_logs
+deepseaTreasure/***logs/rewards_P_1-regular.csv
+deepseaTreasure/***logs/rewards_P_2-regular
+deepseaTreasure/***logs/rewards_P_2-regular-transitions_logs
+deepseaTreasure/***logs/rewards_P_2-regular.csv
+deepseaTreasure/logs/rewards_AP_1-regular-transitions_logs
+deepseaTreasure/logs/rewards_AP_2-regular
+deepseaTreasure/logs/rewards_AP_2-regular-transitions_logs
+deepseaTreasure/logs/rewards_P_1-regular
+deepseaTreasure/logs/rewards_P_1-regular-transitions_logs
+deepseaTreasure/logs/rewards_P_1-regular.csv
+deepseaTreasure/logs/rewards_P_2-regular
+deepseaTreasure/logs/rewards_P_2-regular-transitions_logs
+deepseaTreasure/output/logs/transitions_logs

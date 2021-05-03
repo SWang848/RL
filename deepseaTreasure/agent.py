@@ -21,7 +21,7 @@ from keras.optimizers import *
 from keras.utils import np_utils
 
 from config_agent import *
-from diverse_mem import DiverseMemory
+from diverse_mem_attentive import MemoryBuffer, AttentiveMemoryBuffer
 from history import *
 from utils import *
 
@@ -30,8 +30,10 @@ from pprint import pprint
 import gym
 from deep_sea_treasure import DeepSeaTreasure
 
-physical_devices = tf.config.experimental.list_physical_devices('GPU')
-tf.config.experimental.set_memory_growth(physical_devices[0], True)
+import pandas as pd
+
+# physical_devices = tf.config.experimental.list_physical_devices('GPU')
+# tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
 def LEAKY_RELU(): return LeakyReLU(0.01)
 
@@ -112,7 +114,10 @@ class DeepAgent():
                  frames_per_state=2,
                  max_episode_length=1000,
                  lstm=False,
-                 non_local=False):
+                 non_local=False,
+                 start_lambda = 4,
+                 end_lambda = 1,
+                 alpha = 1):
         """Agent implementing both Multi-Network, Multi-Head and Single-head 
             algorithms
 
@@ -181,6 +186,9 @@ class DeepAgent():
         self.actions = actions
         self.lstm = lstm
         self.non_local = non_local
+        self.start_lambda = 4
+        self.end_lambda = 1
+        self.alpha = 1
 
         self.memory_size = memory_size
 
@@ -464,7 +472,8 @@ class DeepAgent():
         """
 
         np.random.seed(self.steps)
-        ids, batch, _ = self.buffer.sample(self.sample_size)
+        # ids, batch, _ = self.buffer.sample(self.sample_size)
+        ids, batch, _ = self.buffer.sample(self.sample_size, self.k, self.weights)
 
         if self.direct_update:
             # Add recent experiences to the priority update batch
@@ -517,6 +526,8 @@ class DeepAgent():
 
         loss = self.update_priorities(batch, ids)
         self.recent_experiences = []
+
+        self.log.transitions_log(batch, loss, self.steps, self.weights)
 
         return loss
 
@@ -596,8 +607,10 @@ class DeepAgent():
                 pred_idx=pred_idx)
 
             # update the networks and exploration rate
+            self.update_lambda(i)
             loss = self.perform_updates(i)
             self.update_epsilon(i)
+            
 
             if terminal or episode_steps > self.max_episode_length:
                 # start_state_raw = self.env.reset()
@@ -744,13 +757,25 @@ class DeepAgent():
         value_function = der_trace_value if self.memory_type == "DER" else sel_trace_value if self.memory_type == "SEL" else exp_trace_value
         trace_diversity = not(self.memory_type ==
                               "SEL" or self.memory_type == "EXP")
-        self.buffer = DiverseMemory(
+
+        # self.buffer = MemoryBuffer(
+        #     main_capacity=main_capacity,
+        #     sec_capacity=sec_capacity,
+        #     value_function=value_function,
+        #     trace_diversity=trace_diversity,
+        #     a=self.mem_a,
+        #     e=self.mem_e
+        # )
+
+        self.buffer = AttentiveMemoryBuffer(
             main_capacity=main_capacity,
             sec_capacity=sec_capacity,
             value_function=value_function,
             trace_diversity=trace_diversity,
             a=self.mem_a,
-            e=self.mem_e)
+            e=self.mem_e
+        )
+
 
     def predict(self, state, model=None, weights=None):
         """Predict values for the given state
@@ -839,6 +864,16 @@ class DeepAgent():
         self.discount = self.end_discount - linear_anneal(steps, annealing_steps, self.end_discount - self.start_discount,
                                                           0, start_steps)
 
+    def update_lambda(self, steps):
+        start_steps = self.learning_steps * self.start_annealing
+        annealing_steps = self.total_steps * self.alpha
+
+        self.k = self.linear_anneal_lambda(steps, annealing_steps, self.start_lambda, self.end_lambda, start_steps)
+
+    def linear_anneal_lambda(self, steps, annealing_steps, start_lambda, end_lambda, start_steps):
+        t = max(0, steps - start_steps)
+        return max(end_lambda, (annealing_steps-t) * (start_lambda - end_lambda) / annealing_steps + end_lambda)
+
     def memorize(self,
                  state,
                  action,
@@ -879,6 +914,7 @@ class DeepAgent():
 
         idx = self.buffer.add(
             initial_error, transition, pred_idx=pred_idx, trace_id=trace_id)
+                
         self.recent_experiences.append(idx)
 
         return idx
@@ -1013,8 +1049,8 @@ class DeepAgent():
                             np.dot(model_q[i * 2 + 1], weights[i * 2 + 1]))
                     target += self.discount * \
                         target_q[i * 2 + 1][next_action]
-            print(f"predictive:{model_q[i * 2][action]}")
-            print(f"target:{target}")
+            # print(f"predictive:{model_q[i * 2][action]}")
+            # print(f"target:{target}")
             error = mae(model_q[i * 2][action], target)
 
             errors[i] = error
@@ -1050,9 +1086,11 @@ if __name__ == "__main__":
     dst = DeepSeaTreasure(view=(5,5), full=True, scale=1)
     obj_cnt = 2
     steps = 10000
-    all_weights = generate_weights(count=steps, n=obj_cnt, m=1)
-    # shape (100000, 2)
-    # print(np.array(all_weights).shape)
+
+    all_weights = list(np.loadtxt("regular_weights"))
+    # all_weights = [np.array([0.41111111, 1-0.41111111])]
+    # all_weights = all_weights + [np.array([0.09832561, 1-0.09832561]) for i in range(steps)]
+    # print(all_weights[0])
 
     parser = OptionParser()
     parser.add_option(
@@ -1127,7 +1165,7 @@ if __name__ == "__main__":
     parser.add_option(
         "--sample-size",
         dest="sample_size",
-        default="16",
+        default="64",
         help="Sample batch size",
         type=int)
     parser.add_option(
@@ -1151,12 +1189,12 @@ if __name__ == "__main__":
     parser.add_option(
         "--lstm", dest="lstm", default=False)
     parser.add_option(
-        "--non_local", dest="attention", default=True)
+        "--non_local", dest="attention", default=False)
 
     (options, args) = parser.parse_args()
 
     
-    extra = "3-newEnv-lstm-{} clipN-{} clipV-{} attention-{} a-{} m-{} s-{}  e-{} d-{} x-{} {} p-{} fs-{} d-{} up-{} lr-{} e-{} p-{} m-{}-{}".format(
+    extra = "Attentive_1-lstm-{} clipN-{} clipV-{} attention-{} a-{} m-{} s-{}  e-{} d-{} x-{} {} p-{} fs-{} d-{} up-{} lr-{} e-{} p-{} m-{}-{}".format(
     options.lstm, options.clipnorm, options.clipvalue, options.attention,
     options.alg, options.mem, options.seed,
     options.end_e, options.dupe, options.extra, options.mode, options.reuse,
@@ -1167,29 +1205,7 @@ if __name__ == "__main__":
 
     agent = DeepAgent(
         range(4), #range(ACTION_COUNT). e.g. range(6)
-        obj_cnt,
-        # steps, #memory size
-        # sample_size=16,
-        # weights=None,
-        # discount=0.95,
-        # learning_rate=0.02,
-        # target_update_interval=150,
-        # alg="scal",
-        # frame_skip=1,
-        # start_e=0.1,
-        # end_e=0.01,
-        # memory_type="DER",
-        # update_interval=4,
-        # reuse="full",
-        # mem_a=2.,
-        # mem_e=0.01,
-        # extra=extra,
-        # clipnorm=0,
-        # clipvalue=0,
-        # momentum=0.9,
-        # scale=1,
-        # dupe="CN"
-        
+        obj_cnt,        
         options.steps,
         sample_size=options.sample_size,
         weights=None,
