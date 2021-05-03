@@ -40,57 +40,85 @@ class MoMarios():
 
     def step(self, action:int):
         state, reward, done, info = self.env.step(action)
-
-        if self.single_stage and info["flag_get"]:
-            self.stage_bonus = 10000
-            done = True
-        
-        if self.life_done:
-            if self.lives > info['life'] and info['life'] > 0:
-                force_done = True
-                self.lives = info['life']
-            else:
-                force_done = done
-                self.lives = info['life']
-        else:
-            force_done = done
-
         xpos_r = info["x_pos"] - self.x_pos
         self.x_pos = info["x_pos"]
-        # if mario dies, positions gap will be above 5
+
         if xpos_r < -5:
             xpos_r = 0
         
         time_r = info["time"] - self.time
         self.time = info["time"]
-        # time always decreasing
         if time_r > 0:
             time_r = 0
         
-        if self.lives-1 > info["life"]:
+        if done == True and info['flag_get'] == False:
             death_r = -15
-            self.lives -= 1
-        else:
-            death_r = 0
-
-        coin_r = 100 * (info["coins"] - self.coin)
-        self.coin = info["coins"]
-
-        enemy_r = info["score"] - self.score
-        if coin_r > 0 or done:
-            enemy_r = 0
+        
+        score_r = (info['score'] - self.score) / 100
         self.score = info['score']
 
+        #no flag_get score 
+        if score_r == 8:
+            score_r = 0
+
+        if score_r < 0:
+            score_r = 0
+        
         m_reward = np.zeros(self.n_obj)
         if self.n_obj == 2:
-            m_reward[0] = time_r
-            m_reward[1] = info['score']
-        elif self.n_obj == 5:
-            m_reward[0] = xpos_r
-            m_reward[1] = time_r
-            m_reward[2] = death_r
-            m_reward[3] = coin_r
-            m_reward[4] = enemy_r
+            m_reward[0] = reward
+            m_reward[1] = score_r + death_r + xpos_r
+
+        # if self.single_stage and info["flag_get"]:
+        #     self.stage_bonus = 10000
+        #     done = True
+        
+        # if self.life_done:
+        #     if self.lives > info['life'] and info['life'] > 0:
+        #         force_done = True
+        #         self.lives = info['life']
+        #     else:
+        #         force_done = done
+        #         self.lives = info['life']
+        # else:
+        #     force_done = done
+
+        # xpos_r = info["x_pos"] - self.x_pos
+        # self.x_pos = info["x_pos"]
+        # # if mario dies, positions gap will be above 5
+        # if xpos_r < -5:
+        #     xpos_r = 0
+        
+        # time_r = info["time"] - self.time
+        # self.time = info["time"]
+        # # time always decreasing
+        # if time_r > 0:
+        #     time_r = 0
+        
+        # if self.lives-1 > info["life"]:
+        #     death_r = -15
+        #     self.lives -= 1
+        # else:
+        #     death_r = 0
+
+        # coin_r = 100 * (info["coins"] - self.coin)
+        # self.coin = info["coins"]
+
+        # enemy_r = info["score"] - self.score
+        # if coin_r > 0 or done:
+        #     enemy_r = 0
+        # self.score = info['score']
+
+        # m_reward = np.zeros(self.n_obj)
+        # if self.n_obj == 2:
+        #     m_reward[0] = time_r
+        #     m_reward[1] = info['score']
+        # elif self.n_obj == 5:
+        #     m_reward[0] = xpos_r
+        #     m_reward[1] = time_r
+        #     m_reward[2] = death_r
+        #     m_reward[3] = coin_r
+        #     m_reward[4] = enemy_r
         
         return state, m_reward, done, info
 
