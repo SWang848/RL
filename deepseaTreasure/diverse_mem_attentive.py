@@ -633,13 +633,34 @@ class AttentiveMemoryBuffer(PrioritizedDiverseMemory):
         # super(AttentiveMemoryBuffer, self).__init__(main_capacity, sec_capacity, trace_diversity, crowding_diversity, value_function, e, a)
         PrioritizedDiverseMemory.__init__(self, main_capacity, sec_capacity, trace_diversity, crowding_diversity, value_function, e, a)
 
-    def cal_similarity(self, a, b):
+    def cal_weights_similarity(self, a, b):
         dist = np.linalg.norm(a-b)
 
         return dist
-        
+    
+    def cal_states_similarity(self, state):
 
-    def sample(self, n, k, current_weights, tree_id=None):
+        input_t = tf.convert_to_tensor(state, dtype=np.float32)
+        x = Lambda(lambda x: x / 255., name="input_normalizer")(input_t)
+
+        x = TimeDistributed(Conv2D(filters=32, kernel_size=6, strides=2, 
+                                    activation='relu', kernel_initializer='glorot_uniform',
+                                    input_shape=x.shape))(x)
+        x = TimeDistributed(MaxPool2D())(x)
+
+        x = TimeDistributed(Conv2D(filters=64, kernel_size=5, strides=2, 
+                                    activation='relu', kernel_initializer='glorot_uniform'))(x)
+        x = TimeDistributed(MaxPool2D())(x)
+
+        x = Flatten()(x)
+        state = x.numpy()
+
+        dist = np.linalg.norm(state[0, :]-state[1, :])
+        
+        # print(dist)
+        return dist
+
+    def sample(self, n, k, current_weights, current_state, tree_id=None):
         """Sample n transitions from the replay buffer, following the priorities
         of the tree identified by tree_id
 
@@ -673,7 +694,10 @@ class AttentiveMemoryBuffer(PrioritizedDiverseMemory):
                 s = np.random.uniform(0, self.tree.total(tree_id))
                 (idx, p, data) = self.tree.get(s, tree_id)
             
-            score[i] = (idx, self.cal_similarity(current_weights, data[1][5][3]), data, p) #data[1][5][3] means the weights used in this transition
+            state = np.concatenate((np.expand_dims(data[1][0], axis=0), 
+                                        np.expand_dims(current_state, axis=0)))
+            score = self.cal_weights_similarity(current_weights, data[1][5][3]) + self.cal_states_similarity(state)
+            score[i] = (idx, self.cal_weights_similarity(current_weights, data[1][5][3]), data, p) #data[1][5][3] means the weights used in this transition
         
         score = sorted(score.items(), key=lambda item: item[1][1], reverse=False)
         for i in range(n):
@@ -682,6 +706,74 @@ class AttentiveMemoryBuffer(PrioritizedDiverseMemory):
             priorities[i] = score[i][1][3]
         
         return ids, batch, priorities
+    
+    def sample_attentive(self, n, k, current_state):
+        if n < 1:
+            return None, None, None
+
+        batch = np.zeros((n, ), dtype=np.ndarray)
+        ids = np.zeros(n, dtype=int)
+        score = dict()
+        for i in range(int(round(n*k))):
+            id = np.random.randint(0, self.capacity)
+            while self.buffer.data[id][1] is None:
+                id = np.random.randint(0, self.capacity)
+            state = np.concatenate((np.expand_dims(self.buffer.data[id][1][0], axis=0), 
+                                        np.expand_dims(current_state, axis=0)))
+            score[id] = self.cal_similarity(state)
+
+        score = sorted(score.items(), key=lambda item: item[1], reverse=False)
+        for i in range(n):
+            ids[i] = score[i][0]
+            batch[i] = self.buffer.data[ids[i]][1]
+            priorities = None
+        return ids, batch, priorities
+
+        
+
+    # def sample(self, n, k, current_weights, tree_id=None):
+    #     """Sample n transitions from the replay buffer, following the priorities
+    #     of the tree identified by tree_id
+
+    #     Arguments:
+    #         n {int} -- Number of transitios to sample
+    #         k {int} -- Sample k * n number of transitons, k will anneal from K to 1
+
+    #     Keyword Arguments:
+    #         tree_id {object} -- identifier of the tree whose priorities should be followed (default: {None})
+
+    #     Returns:
+    #         tuple -- pair of (indices, transitions)
+    #     """
+    #     if n<1:
+    #         return None, None, None
+
+    #     batch = np.zeros((n, ), dtype=np.ndarray)
+    #     ids = np.zeros(n, dtype=int)
+    #     priorities = np.zeros(n, dtype=float)
+    #     segment = self.tree.total(tree_id) / n
+    #     score = dict()
+
+    #     for i in range(int(round(n*k))):
+    #         a = segment * i
+    #         b = segment * (i + 1)
+
+    #         s = np.random.uniform(a, b)
+    #         (idx, p, data) = self.tree.get(s, tree_id)
+    #         while (data[1]) is None or (
+    #                 idx - self.capacity + 1 >= self.capacity):
+    #             s = np.random.uniform(0, self.tree.total(tree_id))
+    #             (idx, p, data) = self.tree.get(s, tree_id)
+            
+    #         score[i] = (idx, self.cal_similarity(current_weights, data[1][5][3]), data, p) #data[1][5][3] means the weights used in this transition
+        
+    #     score = sorted(score.items(), key=lambda item: item[1][1], reverse=False)
+    #     for i in range(n):
+    #         ids[i] = score[i][1][0]
+    #         batch[i] = score[i][1][2][1]
+    #         priorities[i] = score[i][1][3]
+        
+    #     return ids, batch, priorities
 
     
 

@@ -241,7 +241,7 @@ class DeepSeaTreasure():
 
 if __name__ == '__main__':
 
-    env = DeepSeaTreasure(view=(5,5), full=False, scale=1)
+    env = DeepSeaTreasure(view=(5,5), full=True, scale=1)
     print(env.nb_count)
     print(env.observation_space.shape)
     print(env.action_space.shape)
@@ -251,7 +251,9 @@ if __name__ == '__main__':
     env.show(plot=True)
     
     while not terminal:
+        print(1)
         a_t = int(input("0:left, 1:right, 2:up, 3:down | choose: "))
+        print(1)
         o_t1, r_t, terminal, s_t1 = env.step(a_t)
         print(o_t1.shape)
         env.show(plot=True)

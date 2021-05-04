@@ -473,7 +473,8 @@ class DeepAgent():
 
         np.random.seed(self.steps)
         # ids, batch, _ = self.buffer.sample(self.sample_size)
-        ids, batch, _ = self.buffer.sample(self.sample_size, self.k, self.weights)
+        # ids, batch, _ = self.buffer.sample(self.sample_size, self.k, self.weights)
+        ids, batch, _ = self.buffer.sample(self.sample_size, self.k, self.weights, self.current_state)
 
         if self.direct_update:
             # Add recent experiences to the priority update batch
@@ -573,7 +574,7 @@ class DeepAgent():
         # current_state = self.history.fill_raw_frame(current_state_raw_pixels)
 
         current_state_raw = self.env.reset()
-        current_state = self.history.fill_raw_frame(current_state_raw)
+        self.current_state = self.history.fill_raw_frame(current_state_raw)
 
         for i in range(int(self.total_steps)):
 
@@ -597,7 +598,7 @@ class DeepAgent():
 
             # memorize the experienced transition
             pred_idx = self.memorize(
-                current_state,
+                self.current_state,
                 action,
                 reward,
                 next_state,
@@ -631,7 +632,7 @@ class DeepAgent():
                               self.epsilon, self.frame_skip,
                               None, action)
 
-            current_state = next_state
+            self.current_state = next_state
             current_state_raw = next_state_raw
             # current_state_raw_pixels = next_state_raw_pixels
 
