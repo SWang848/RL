@@ -582,7 +582,7 @@ class DeepAgent():
             episode_steps += 1
 
             # pick an action following an epsilon-greedy strategy
-            action = self.pick_action(current_state)
+            action = self.pick_action(self.current_state)
 
             # perform the action
             # next_state_raw, reward, terminal = self.env.step(
@@ -627,7 +627,7 @@ class DeepAgent():
                 pred_idx = None
 
             self.log.log_step(self.env, i, loss, reward,
-                              terminal or episode_steps > self.max_episode_length, current_state, next_state,
+                              terminal or episode_steps > self.max_episode_length, self.current_state, next_state,
                               self.weights, self.end_discount, episode_steps,
                               self.epsilon, self.frame_skip,
                               None, action)
@@ -667,8 +667,8 @@ class DeepAgent():
                 episodes += 1
                 episode_steps = 0
             
-            if (self.steps % 200000) == 0:
-                self.save_weights()
+            # if (self.steps % 200000) == 0:
+                # self.save_weights()
 
     def set_weights(self, weights):
         """Set current weight vector
@@ -909,7 +909,7 @@ class DeepAgent():
             dtype=object)
 
         transition = np.array((state, action, reward, next_state[-1], terminal,
-                               extra))
+                               extra), dtype=object)
 
         # Add transition to replay buffer
 
