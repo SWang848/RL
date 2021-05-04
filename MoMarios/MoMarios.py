@@ -7,7 +7,7 @@ import numpy as np
 
 class MoMarios():
 
-    def __init__(self, life_done, single_stage, n_obj):
+    def __init__(self, n_obj):
         self.env = JoypadSpace(gym_super_mario_bros.make('SuperMarioBros-1-1-v0'), SIMPLE_MOVEMENT)
 
         self.reward = 0
@@ -17,9 +17,6 @@ class MoMarios():
         self.time = 0
         self.score = 0
         self.stage_bonus = 0
-
-        self.life_done = life_done
-        self.single_stage = single_stage
         
         self.n_obj = n_obj
 
@@ -51,6 +48,7 @@ class MoMarios():
         if time_r > 0:
             time_r = 0
         
+        death_r = 0
         if done == True and info['flag_get'] == False:
             death_r = -15
         
@@ -139,7 +137,7 @@ if __name__ == '__main__':
 
     # env.close()
 
-    test = MoMarios(True, True, 5)
+    test = MoMarios(2)
     done = True
     for step in range(500):
         if done:
