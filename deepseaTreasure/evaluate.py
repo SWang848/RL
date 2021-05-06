@@ -119,10 +119,10 @@ def cal_adhesion(file_path, stop=False):
         for line in fin.readlines():
             line = line.rstrip('\n')
             log = line.split(';')
-            batch_size = int(log[1])
-            steps_list.append(log[0])
+            batch_size = int(log[2])
+            steps_list.append(log[1])
             adhesion = 0
-            for i in eval(log[2]):
+            for i in eval(log[3]):
                 adhesion += np.linalg.norm(np.array(i[0])-np.array(parse_array(log[-1])))*i[1]
             adhesion_list.append(adhesion/batch_size)
 

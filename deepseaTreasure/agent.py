@@ -1184,7 +1184,7 @@ if __name__ == "__main__":
     parser.add_option("-p", "--reuse", dest="reuse",
                     choices=["full", "sectionned", "proportional"], default="full")
     parser.add_option(
-        "-c", "--mode", dest="mode", choices=["regular", "sparse"], default="sparse")
+        "-c", "--mode", dest="mode", choices=["regular", "sparse"], default="regular")
     parser.add_option(
         "-s", "--seed", dest="seed", default=None, help="Random Seed", type=int)
     parser.add_option(
@@ -1195,14 +1195,15 @@ if __name__ == "__main__":
     (options, args) = parser.parse_args()
 
     
-    extra = "Attentive_1-lstm-{} clipN-{} clipV-{} attention-{} a-{} m-{} s-{}  e-{} d-{} x-{} {} p-{} fs-{} d-{} up-{} lr-{} e-{} p-{} m-{}-{}".format(
-    options.lstm, options.clipnorm, options.clipvalue, options.attention,
-    options.alg, options.mem, options.seed,
-    options.end_e, options.dupe, options.extra, options.mode, options.reuse,
-    options.frame_skip,
-    np.round(options.discount, 4), options.updates,
-    np.round(options.lr, 4),
-    np.round(options.scale, 2), np.round(options.steps, 2), np.round(options.mem_a, 2), np.round(options.mem_e, 2))
+    # extra = "Attentive_1-lstm-{} clipN-{} clipV-{} attention-{} a-{} m-{} s-{}  e-{} d-{} x-{} {} p-{} fs-{} d-{} up-{} lr-{} e-{} p-{} m-{}-{}".format(
+    # options.lstm, options.clipnorm, options.clipvalue, options.attention,
+    # options.alg, options.mem, options.seed,
+    # options.end_e, options.dupe, options.extra, options.mode, options.reuse,
+    # options.frame_skip,
+    # np.round(options.discount, 4), options.updates,
+    # np.round(options.lr, 4),
+    # np.round(options.scale, 2), np.round(options.steps, 2), np.round(options.mem_a, 2), np.round(options.mem_e, 2))
+    extra = "AP_3-regular"
 
     agent = DeepAgent(
         range(4), #range(ACTION_COUNT). e.g. range(6)
