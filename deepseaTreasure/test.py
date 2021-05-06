@@ -9,26 +9,25 @@ from history import History
 seed = 0
 def cal_states_similarity(state):
 
-        input_t = tf.convert_to_tensor(state, dtype=np.float32)
-        x = Lambda(lambda x: x / 255., name="input_normalizer")(input_t)
+    input_t = tf.convert_to_tensor(state, dtype=np.float32)
+    x = Lambda(lambda x: x / 255., name="input_normalizer")(input_t)
 
-        x = TimeDistributed(Conv2D(filters=32, kernel_size=6, strides=2, 
-                                    activation='relu', kernel_initializer=initializers.GlorotUniform(seed),
-                                    input_shape=x.shape))(x)
-        x = TimeDistributed(MaxPool2D())(x)
+    x = TimeDistributed(Conv2D(filters=32, kernel_size=6, strides=2, 
+                                activation='relu', kernel_initializer=initializers.GlorotUniform(seed),
+                                input_shape=x.shape))(x)
+    x = TimeDistributed(MaxPool2D())(x)
 
-        x = TimeDistributed(Conv2D(filters=64, kernel_size=5, strides=2, 
-                                    activation='relu', kernel_initializer=initializers.GlorotUniform(seed)))(x)
-        x = TimeDistributed(MaxPool2D())(x)
+    x = TimeDistributed(Conv2D(filters=64, kernel_size=5, strides=2, 
+                                activation='relu', kernel_initializer=initializers.GlorotUniform(seed)))(x)
+    x = TimeDistributed(MaxPool2D())(x)
 
-        x = Flatten()(x)
-        state = x.numpy()
-        print(state.shape)
+    x = Flatten()(x)
+    state = x.numpy()
 
-        dist = np.linalg.norm(state[0, :]-state[1, :])
-        
-        # print(dist)
-        return dist
+    dist = np.linalg.norm(state[0, :]-state[1, :])
+    
+    # print(dist)
+    return dist
 
 # a = np.random.rand(2, 48, 48, 3)
 # b = np.zeros((2, 48, 48, 3))

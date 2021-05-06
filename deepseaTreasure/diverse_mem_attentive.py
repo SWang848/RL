@@ -2,6 +2,7 @@ import numpy as np
 import random
 import tensorflow as tf
 from tensorflow.keras.layers import *
+from tensorflow.keras import initializers
 
 INF = float("Inf")
 
@@ -639,17 +640,17 @@ class AttentiveMemoryBuffer(PrioritizedDiverseMemory):
         return dist
     
     def cal_states_similarity(self, state):
-
+        seed = 0
         input_t = tf.convert_to_tensor(state, dtype=np.float32)
         x = Lambda(lambda x: x / 255., name="input_normalizer")(input_t)
 
         x = TimeDistributed(Conv2D(filters=32, kernel_size=6, strides=2, 
-                                    activation='relu', kernel_initializer='glorot_uniform',
+                                    activation='relu', kernel_initializer=initializers.GlorotUniform(seed),
                                     input_shape=x.shape))(x)
         x = TimeDistributed(MaxPool2D())(x)
 
         x = TimeDistributed(Conv2D(filters=64, kernel_size=5, strides=2, 
-                                    activation='relu', kernel_initializer='glorot_uniform'))(x)
+                                    activation='relu', kernel_initializer=initializers.GlorotUniform(seed)))(x)
         x = TimeDistributed(MaxPool2D())(x)
 
         x = Flatten()(x)
@@ -696,8 +697,8 @@ class AttentiveMemoryBuffer(PrioritizedDiverseMemory):
             
             state = np.concatenate((np.expand_dims(data[1][0], axis=0), 
                                         np.expand_dims(current_state, axis=0)))
-            score = self.cal_weights_similarity(current_weights, data[1][5][3]) + self.cal_states_similarity(state)
-            score[i] = (idx, self.cal_weights_similarity(current_weights, data[1][5][3]), data, p) #data[1][5][3] means the weights used in this transition
+            sim_score = self.cal_weights_similarity(current_weights, data[1][5][3]) + self.cal_states_similarity(state)
+            score[i] = (idx, sim_score, data, p) #data[1][5][3] means the weights used in this transition
         
         score = sorted(score.items(), key=lambda item: item[1][1], reverse=False)
         for i in range(n):
@@ -706,30 +707,6 @@ class AttentiveMemoryBuffer(PrioritizedDiverseMemory):
             priorities[i] = score[i][1][3]
         
         return ids, batch, priorities
-    
-    def sample_attentive(self, n, k, current_state):
-        if n < 1:
-            return None, None, None
-
-        batch = np.zeros((n, ), dtype=np.ndarray)
-        ids = np.zeros(n, dtype=int)
-        score = dict()
-        for i in range(int(round(n*k))):
-            id = np.random.randint(0, self.capacity)
-            while self.buffer.data[id][1] is None:
-                id = np.random.randint(0, self.capacity)
-            state = np.concatenate((np.expand_dims(self.buffer.data[id][1][0], axis=0), 
-                                        np.expand_dims(current_state, axis=0)))
-            score[id] = self.cal_similarity(state)
-
-        score = sorted(score.items(), key=lambda item: item[1], reverse=False)
-        for i in range(n):
-            ids[i] = score[i][0]
-            batch[i] = self.buffer.data[ids[i]][1]
-            priorities = None
-        return ids, batch, priorities
-
-        
 
     # def sample(self, n, k, current_weights, tree_id=None):
     #     """Sample n transitions from the replay buffer, following the priorities

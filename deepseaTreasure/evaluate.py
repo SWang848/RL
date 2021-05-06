@@ -119,10 +119,10 @@ def cal_adhesion(file_path):
         for line in fin.readlines():
             line = line.rstrip('\n')
             log = line.split(';')
-            batch_size = int(log[1])
-            steps_list.append(log[0])
+            batch_size = int(log[2])
+            steps_list.append(log[1])
             adhesion = 0
-            for i in eval(log[2]):
+            for i in eval(log[3]):
                 adhesion += np.linalg.norm(np.array(i[0])-np.array(parse_array(log[-1])))*i[1]
             adhesion_list.append(adhesion/batch_size)
     
@@ -254,7 +254,8 @@ def draw_episodes(file_path):
     # plt.savefig(log_file+'.jpg')
     plt.show()
 
-logs_file_path = r'./***logs/rewards_AP_2-regular-transitions_logs'
-# episodes_evaluate(logs_file_path)
-# draw_episodes(logs_file_path)
-cal_adhesion(logs_file_path)
+transitions_file_path = r'./output/logs/rewards_AP_3-regular-transitions_logs'
+logs_file_path = r'./output/logs/rewards_AP_3-regular'
+episodes_evaluate(logs_file_path)
+draw_episodes(logs_file_path)
+cal_adhesion(transitions_file_path)
