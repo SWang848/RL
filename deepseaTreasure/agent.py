@@ -7,17 +7,19 @@ import random
 import time
 from optparse import OptionParser
 
+import tensorflow as tf
+
 import keras.backend as K
 import scipy.spatial
 from operator import mul
-from keras import initializers
+from tensorflow.keras import initializers
 from keras.backend.tensorflow_backend import set_session
 from keras.callbacks import LearningRateScheduler
-from keras.layers import *
-from keras.layers.pooling import *
+from tensorflow.keras.layers import *
+# from keras.layers.pooling import *
 from keras.losses import mean_absolute_error, mean_squared_error
-from keras.models import Model, load_model
-from keras.optimizers import *
+from tensorflow.keras.models import Model, load_model
+from tensorflow.keras.optimizers import *
 from keras.utils import np_utils
 
 from config_agent import *
@@ -34,8 +36,6 @@ import pandas as pd
 
 # physical_devices = tf.config.experimental.list_physical_devices('GPU')
 # tf.config.experimental.set_memory_growth(physical_devices[0], True)
-
-def LEAKY_RELU(): return LeakyReLU(0.01)
 
 def generate_weights(count=1, n=3, m=1):
     all_weights = []
@@ -247,9 +247,9 @@ class DeepAgent():
                     filters=int(filters / self.scale),
                     kernel_size=kernel_size,
                     strides=strides,
+                    activation='relu',
                     name="conv{}".format(c)))(x)
-            x = LEAKY_RELU()(x)
-            x = TimeDistributed(MaxPooling2D())(x)
+            x = TimeDistributed(MaxPool2D())(x)
             if non_local_block:
                 x = self.non_local_block(x, 'embedded gaussian', True)
 
@@ -257,8 +257,8 @@ class DeepAgent():
         x = Dense(
             int(POST_CONV_DENSE_SIZE / self.scale),
             kernel_initializer=DENSE_INIT,
+            activation='relu',
             name="post_conv_dense")(x)
-        x = LEAKY_RELU()(x)
         
 
         if self.lstm:
@@ -350,19 +350,21 @@ class DeepAgent():
 
         # Build a dueling head with the required amount of outputs
         head_dense = [
-            LEAKY_RELU()(Dense(
+            Dense(
                 per_stream_dense_size,
                 name='dueling_0_{}'.format(a),
-                kernel_initializer=DENSE_INIT)(features))
+                activation='relu',
+                kernel_initializer=DENSE_INIT)(features)
             for a in range(2)
         ]
 
         for depth in range(1, DUELING_DEPTH):
             head_dense = [
-                LEAKY_RELU()(Dense(
+                Dense(
                     per_stream_dense_size,
                     name='dueling_{}_{}'.format(depth, a),
-                    kernel_initializer=DENSE_INIT)(head_dense[a]))
+                    activation='relu',
+                    kernel_initializer=DENSE_INIT)(head_dense[a])
                 for a in range(2)
             ]
 
@@ -472,9 +474,9 @@ class DeepAgent():
         """
 
         np.random.seed(self.steps)
-        # ids, batch, _ = self.buffer.sample(self.sample_size)
+        ids, batch, _ = self.buffer.sample(self.sample_size)
         # ids, batch, _ = self.buffer.sample(self.sample_size, self.k, self.weights)
-        ids, batch, _ = self.buffer.sample(self.sample_size, self.k, self.weights, self.current_state)
+        # ids, batch, _ = self.buffer.sample(self.sample_size, self.k, self.weights, self.current_state)
 
         if self.direct_update:
             # Add recent experiences to the priority update batch
@@ -759,16 +761,7 @@ class DeepAgent():
         trace_diversity = not(self.memory_type ==
                               "SEL" or self.memory_type == "EXP")
 
-        # self.buffer = MemoryBuffer(
-        #     main_capacity=main_capacity,
-        #     sec_capacity=sec_capacity,
-        #     value_function=value_function,
-        #     trace_diversity=trace_diversity,
-        #     a=self.mem_a,
-        #     e=self.mem_e
-        # )
-
-        self.buffer = AttentiveMemoryBuffer(
+        self.buffer = MemoryBuffer(
             main_capacity=main_capacity,
             sec_capacity=sec_capacity,
             value_function=value_function,
@@ -776,6 +769,15 @@ class DeepAgent():
             a=self.mem_a,
             e=self.mem_e
         )
+
+        # self.buffer = AttentiveMemoryBuffer(
+        #     main_capacity=main_capacity,
+        #     sec_capacity=sec_capacity,
+        #     value_function=value_function,
+        #     trace_diversity=trace_diversity,
+        #     a=self.mem_a,
+        #     e=self.mem_e
+        # )
 
 
     def predict(self, state, model=None, weights=None):
@@ -1203,7 +1205,7 @@ if __name__ == "__main__":
     # np.round(options.discount, 4), options.updates,
     # np.round(options.lr, 4),
     # np.round(options.scale, 2), np.round(options.steps, 2), np.round(options.mem_a, 2), np.round(options.mem_e, 2))
-    extra = "AP_3-regular"
+    extra = "P_3-regular"
 
     agent = DeepAgent(
         range(4), #range(ACTION_COUNT). e.g. range(6)
