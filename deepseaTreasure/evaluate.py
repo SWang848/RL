@@ -110,8 +110,7 @@ def logs_evaluate(file_path):
     df.to_csv(log_file+'.csv')
 
 
-
-def cal_adhesion(file_path, stop=False):
+def cal_adhesion(file_path):
     steps_list = list()
     adhesion_list = list()
 
@@ -119,10 +118,10 @@ def cal_adhesion(file_path, stop=False):
         for line in fin.readlines():
             line = line.rstrip('\n')
             log = line.split(';')
-            batch_size = int(log[2])
-            steps_list.append(log[1])
+            batch_size = int(log[1])
+            steps_list.append(log[0])
             adhesion = 0
-            for i in eval(log[3]):
+            for i in eval(log[2]):
                 adhesion += np.linalg.norm(np.array(i[0])-np.array(parse_array(log[-1])))*i[1]
             adhesion_list.append(adhesion/batch_size)
 
@@ -134,7 +133,7 @@ def cal_adhesion(file_path, stop=False):
 
     plt.title('adhesion degree')
     plt.xlabel('steps')
-    plt.ylabel('adhension degree')
+    plt.ylabel('adhesion degree')
 
     x_major_locator = MultipleLocator(160)
     ax = plt.gca()
@@ -147,6 +146,48 @@ def cal_adhesion(file_path, stop=False):
     # plt.savefig(log_file+'.jpg')
     plt.show()
     plt.close()
+
+def cal_adhesion_2(file_path, record_range, sample_interval=1):
+    steps_list = list()
+    adhesion_list = list()
+
+    with open(file_path, 'r') as fin:
+        for line in fin.readlines():
+            line = line.rstrip('\n')
+            log = line.split(';')
+            
+            if int(log[0]) >= record_range[0]:
+                batch_size = int(log[1])
+                steps_list.append(log[0])
+                adhesion = 0
+                for i in eval(log[2]):
+                    adhesion += np.linalg.norm(np.array(i[0])-np.array(parse_array(log[-1]))) * i[1]
+                adhesion_list.append(adhesion/batch_size)
+                
+            if int(log[0]) >= record_range[1]:
+                break
+
+    plt.plot(steps_list[::sample_interval], adhesion_list[::sample_interval])
+    plt.title('adhesion degree')
+    plt.xlabel('steps')
+    plt.ylabel('adhesion degree')
+
+    x_major_locator = MultipleLocator((record_range[1]-record_range[0])/100)
+    ax = plt.gca()
+
+    plt.tick_params(axis='x', labelsize=6)
+    plt.xticks(rotation=30)
+    ax.xaxis.set_major_locator(x_major_locator)
+
+    for i in range(0, 10, 1):
+        plt.hlines(i/10, 0, len(steps_list), colors = "black", linestyles = "dashed")
+    # plt.tick_params(axis='x', labelsize=6)
+    # plt.xticks(rotation=30)
+    # plt.xlim(record_range[0], record_range[1])
+
+    plt.show()
+    plt.close()
+            
 
 def draw_episodes(file_path):
     log_file = file_path 
@@ -260,7 +301,8 @@ def draw_episodes(file_path):
 
 
 logs_file_path = os.path.join(os.getcwd(), '***logs/rewards_P_1-regular')
-transitions_file_path = os.path.join(os.getcwd(), '***logs/rewards_P_2-regular-transitions_logs')
+transitions_file_path = os.path.join(os.getcwd(), '***logs/rewards_AP_2-regular-transitions_logs')
 # episodes_evaluate(logs_file_path)
 # draw_episodes(logs_file_path)
 cal_adhesion(transitions_file_path)
+# cal_adhesion_2(transitions_file_path, [1004, 6036], 1)
