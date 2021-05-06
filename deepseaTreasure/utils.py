@@ -205,9 +205,8 @@ class Log(object):
         for i in batch:
             batch_weights.append(i[5][3].tolist())
         transitions_weight = pd.value_counts(batch_weights)
-        prefix = 'steps'
 
-        log_line = ";".join(map(str, [prefix, steps, len(batch_weights), list(zip(transitions_weight.index, transitions_weight)), loss, current_weights]))
+        log_line = ";".join(map(str, [steps, len(batch_weights), list(zip(transitions_weight.index, transitions_weight)), loss, current_weights]))
         print(log_line, file=self.transitions_file)
 
     def log_step(self, env, total_steps, loss, reward, terminal, state,
