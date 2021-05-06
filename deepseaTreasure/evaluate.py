@@ -111,7 +111,7 @@ def logs_evaluate(file_path):
 
 
 
-def cal_adhesion(file_path):
+def cal_adhesion(file_path, stop=False):
     steps_list = list()
     adhesion_list = list()
 
@@ -125,6 +125,10 @@ def cal_adhesion(file_path):
             for i in eval(log[2]):
                 adhesion += np.linalg.norm(np.array(i[0])-np.array(parse_array(log[-1])))*i[1]
             adhesion_list.append(adhesion/batch_size)
+
+            # if log[0] == stop:
+            #     break
+            
     
     plt.plot(steps_list[::8], adhesion_list[::8])
 
@@ -254,7 +258,9 @@ def draw_episodes(file_path):
     # plt.savefig(log_file+'.jpg')
     plt.show()
 
-logs_file_path = r'./***logs/rewards_AP_2-regular-transitions_logs'
+
+logs_file_path = os.path.join(os.getcwd(), '***logs/rewards_P_1-regular')
+transitions_file_path = os.path.join(os.getcwd(), '***logs/rewards_P_2-regular-transitions_logs')
 # episodes_evaluate(logs_file_path)
 # draw_episodes(logs_file_path)
-cal_adhesion(logs_file_path)
+cal_adhesion(transitions_file_path)
