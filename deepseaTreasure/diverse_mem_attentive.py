@@ -661,7 +661,7 @@ class AttentiveMemoryBuffer(PrioritizedDiverseMemory):
         # print(dist)
         return dist
 
-    def sample(self, n, k, current_weights, current_state, tree_id=None):
+    def sample(self, n, k, steps, current_weights, current_state, tree_id=None):
         """Sample n transitions from the replay buffer, following the priorities
         of the tree identified by tree_id
 
@@ -678,12 +678,17 @@ class AttentiveMemoryBuffer(PrioritizedDiverseMemory):
         if n<1:
             return None, None, None
 
+        if steps<=10000:
+            k = 1
+        else:
+            pass
+
         batch = np.zeros((n, ), dtype=np.ndarray)
         ids = np.zeros(n, dtype=int)
         priorities = np.zeros(n, dtype=float)
-        segment = self.tree.total(tree_id) / n
+        segment = self.tree.total(tree_id) / n*k
         score = dict()
-
+        
         for i in range(int(round(n*k))):
             a = segment * i
             b = segment * (i + 1)
@@ -695,16 +700,22 @@ class AttentiveMemoryBuffer(PrioritizedDiverseMemory):
                 s = np.random.uniform(0, self.tree.total(tree_id))
                 (idx, p, data) = self.tree.get(s, tree_id)
             
-            state = np.concatenate((np.expand_dims(data[1][0], axis=0), 
-                                        np.expand_dims(current_state, axis=0)))
-            sim_score = self.cal_weights_similarity(current_weights, data[1][5][3]) + self.cal_states_similarity(state)
-            score[i] = (idx, sim_score, data, p) #data[1][5][3] means the weights used in this transition
-        
-        score = sorted(score.items(), key=lambda item: item[1][1], reverse=False)
-        for i in range(n):
-            ids[i] = score[i][1][0]
-            batch[i] = score[i][1][2][1]
-            priorities[i] = score[i][1][3]
+            if steps > 10000:
+                state = np.concatenate((np.expand_dims(data[1][0], axis=0), 
+                                            np.expand_dims(current_state, axis=0)))
+                sim_score = self.cal_weights_similarity(current_weights, data[1][5][3]) + self.cal_states_similarity(state)
+                score[i] = (idx, sim_score, data, p) #data[1][5][3] means the weights used in this transition
+            else:
+                ids[i] = idx
+                batch[i] = data[1]
+                priorities[i] = p
+
+        if steps > 10000:
+            score = sorted(score.items(), key=lambda item: item[1][1], reverse=False)
+            for i in range(n):
+                ids[i] = score[i][1][0]
+                batch[i] = score[i][1][2][1]
+                priorities[i] = score[i][1][3]
         
         return ids, batch, priorities
 
@@ -751,8 +762,6 @@ class AttentiveMemoryBuffer(PrioritizedDiverseMemory):
     #         priorities[i] = score[i][1][3]
         
     #     return ids, batch, priorities
-
-    
 
 
 class DiverseMemoryWithAER():

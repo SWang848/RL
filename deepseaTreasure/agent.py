@@ -1,5 +1,4 @@
 from __future__ import print_function
-
 import gc
 import math
 import os
@@ -474,7 +473,7 @@ class DeepAgent():
         np.random.seed(self.steps)
         # ids, batch, _ = self.buffer.sample(self.sample_size)
         # ids, batch, _ = self.buffer.sample(self.sample_size, self.k, self.weights)
-        ids, batch, _ = self.buffer.sample(self.sample_size, self.k, self.weights, self.current_state)
+        ids, batch, _ = self.buffer.sample(self.sample_size, self.k, self.steps, self.weights, self.current_state)
 
         if self.direct_update:
             # Add recent experiences to the priority update batch
@@ -1203,7 +1202,7 @@ if __name__ == "__main__":
     # np.round(options.discount, 4), options.updates,
     # np.round(options.lr, 4),
     # np.round(options.scale, 2), np.round(options.steps, 2), np.round(options.mem_a, 2), np.round(options.mem_e, 2))
-    extra = "AP_3-regular"
+    extra = "AP_4-regular"
 
     agent = DeepAgent(
         range(4), #range(ACTION_COUNT). e.g. range(6)

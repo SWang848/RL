@@ -210,7 +210,7 @@ def draw_episodes(file_path):
     opt_treasure.append(data['opt_treasure'][0])
     j = 1
 
-    for i in range(1, len(step_list), 1):
+    for i in range(1, len(step_list)-1, 1):
         
         if j == len(flag):
             break
@@ -300,9 +300,9 @@ def draw_episodes(file_path):
     plt.show()
 
 
-logs_file_path = os.path.join(os.getcwd(), '***logs/rewards_P_1-regular')
-transitions_file_path = os.path.join(os.getcwd(), '***logs/rewards_AP_2-regular-transitions_logs')
+logs_file_path = os.path.join(os.getcwd(), '***logs/rewards_AP_4-regular')
+transitions_file_path = os.path.join(os.getcwd(), '***logs/rewards_AP_4-regular-transitions_logs')
 # episodes_evaluate(logs_file_path)
 # draw_episodes(logs_file_path)
-cal_adhesion(transitions_file_path)
-# cal_adhesion_2(transitions_file_path, [1004, 6036], 1)
+# cal_adhesion(transitions_file_path)
+cal_adhesion_2(transitions_file_path, [1004, 10036], 1)
