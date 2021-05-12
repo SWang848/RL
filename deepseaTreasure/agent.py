@@ -473,7 +473,7 @@ class DeepAgent():
         """
 
         np.random.seed(self.steps)
-        ids, batch, _ = self.buffer.sample(self.sample_size)
+        # ids, batch, _ = self.buffer.sample(self.sample_size)
         # ids, batch, _ = self.buffer.sample(self.sample_size, self.k, self.weights)
         ids, batch, _ = self.buffer.sample(self.sample_size, self.k, self.steps, self.weights, self.current_state)
 
@@ -760,16 +760,7 @@ class DeepAgent():
         trace_diversity = not(self.memory_type ==
                               "SEL" or self.memory_type == "EXP")
 
-        self.buffer = MemoryBuffer(
-            main_capacity=main_capacity,
-            sec_capacity=sec_capacity,
-            value_function=value_function,
-            trace_diversity=trace_diversity,
-            a=self.mem_a,
-            e=self.mem_e
-        )
-
-        # self.buffer = AttentiveMemoryBuffer(
+        # self.buffer = MemoryBuffer(
         #     main_capacity=main_capacity,
         #     sec_capacity=sec_capacity,
         #     value_function=value_function,
@@ -777,6 +768,15 @@ class DeepAgent():
         #     a=self.mem_a,
         #     e=self.mem_e
         # )
+
+        self.buffer = AttentiveMemoryBuffer(
+            main_capacity=main_capacity,
+            sec_capacity=sec_capacity,
+            value_function=value_function,
+            trace_diversity=trace_diversity,
+            a=self.mem_a,
+            e=self.mem_e
+        )
 
 
     def predict(self, state, model=None, weights=None):
