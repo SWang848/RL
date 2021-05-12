@@ -686,7 +686,7 @@ class AttentiveMemoryBuffer(PrioritizedDiverseMemory):
         batch = np.zeros((n, ), dtype=np.ndarray)
         ids = np.zeros(n, dtype=int)
         priorities = np.zeros(n, dtype=float)
-        segment = self.tree.total(tree_id) / n*k
+        segment = self.tree.total(tree_id) / int(round(n*k))
         score = dict()
         
         for i in range(int(round(n*k))):

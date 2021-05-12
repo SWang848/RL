@@ -114,7 +114,7 @@ class DeepAgent():
                  max_episode_length=1000,
                  lstm=False,
                  non_local=False,
-                 start_lambda = 4,
+                 start_lambda = 20,
                  end_lambda = 1,
                  alpha = 1):
         """Agent implementing both Multi-Network, Multi-Head and Single-head 
@@ -185,7 +185,7 @@ class DeepAgent():
         self.actions = actions
         self.lstm = lstm
         self.non_local = non_local
-        self.start_lambda = 4
+        self.start_lambda = 20
         self.end_lambda = 1
         self.alpha = 1
 
@@ -867,14 +867,14 @@ class DeepAgent():
                                                           0, start_steps)
 
     def update_lambda(self, steps):
-        start_steps = self.learning_steps * self.start_annealing
-        annealing_steps = self.total_steps * self.alpha
+        start_steps = 10000
+        annealing_steps = (self.total_steps-10000) * self.alpha
 
         self.k = self.linear_anneal_lambda(steps, annealing_steps, self.start_lambda, self.end_lambda, start_steps)
 
     def linear_anneal_lambda(self, steps, annealing_steps, start_lambda, end_lambda, start_steps):
         t = max(0, steps - start_steps)
-        return max(end_lambda, (annealing_steps-t) * (start_lambda - end_lambda) / annealing_steps + end_lambda)
+        return max(end_lambda, (annealing_steps - t) * (start_lambda - end_lambda) / annealing_steps + end_lambda)
 
     def memorize(self,
                  state,
@@ -1204,7 +1204,7 @@ if __name__ == "__main__":
     # np.round(options.discount, 4), options.updates,
     # np.round(options.lr, 4),
     # np.round(options.scale, 2), np.round(options.steps, 2), np.round(options.mem_a, 2), np.round(options.mem_e, 2))
-    extra = "AP_4-regular"
+    extra = "AP_5-regular"
 
     agent = DeepAgent(
         range(4), #range(ACTION_COUNT). e.g. range(6)
