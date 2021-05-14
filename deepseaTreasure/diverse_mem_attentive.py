@@ -678,7 +678,7 @@ class AttentiveMemoryBuffer(PrioritizedDiverseMemory):
         if n<1:
             return None, None, None
 
-        if steps<=10000:
+        if steps <= 10000:
             k = 1
         else:
             pass
@@ -692,14 +692,14 @@ class AttentiveMemoryBuffer(PrioritizedDiverseMemory):
         for i in range(int(round(n*k))):
             a = segment * i
             b = segment * (i + 1)
-
+            
             s = np.random.uniform(a, b)
             (idx, p, data) = self.tree.get(s, tree_id)
             while (data[1]) is None or (
                     idx - self.capacity + 1 >= self.capacity):
                 s = np.random.uniform(0, self.tree.total(tree_id))
                 (idx, p, data) = self.tree.get(s, tree_id)
-            
+
             if steps > 10000:
                 state = np.concatenate((np.expand_dims(data[1][0], axis=0), 
                                             np.expand_dims(current_state, axis=0)))
@@ -716,7 +716,7 @@ class AttentiveMemoryBuffer(PrioritizedDiverseMemory):
                 ids[i] = score[i][1][0]
                 batch[i] = score[i][1][2][1]
                 priorities[i] = score[i][1][3]
-        
+
         return ids, batch, priorities
 
     # def sample(self, n, k, current_weights, tree_id=None):

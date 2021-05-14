@@ -1,4 +1,5 @@
 from __future__ import print_function
+
 import gc
 import math
 import os
@@ -6,19 +7,17 @@ import random
 import time
 from optparse import OptionParser
 
-import tensorflow as tf
-
 import keras.backend as K
 import scipy.spatial
 from operator import mul
-from tensorflow.keras import initializers
+from keras import initializers
 from keras.backend.tensorflow_backend import set_session
 from keras.callbacks import LearningRateScheduler
-from tensorflow.keras.layers import *
-# from keras.layers.pooling import *
+from keras.layers import *
+from keras.layers.pooling import *
 from keras.losses import mean_absolute_error, mean_squared_error
-from tensorflow.keras.models import Model, load_model
-from tensorflow.keras.optimizers import *
+from keras.models import Model, load_model
+from keras.optimizers import *
 from keras.utils import np_utils
 
 from config_agent import *
@@ -35,6 +34,8 @@ import pandas as pd
 
 # physical_devices = tf.config.experimental.list_physical_devices('GPU')
 # tf.config.experimental.set_memory_growth(physical_devices[0], True)
+
+def LEAKY_RELU(): return LeakyReLU(0.01)
 
 def generate_weights(count=1, n=3, m=1):
     all_weights = []
@@ -114,7 +115,7 @@ class DeepAgent():
                  max_episode_length=1000,
                  lstm=False,
                  non_local=False,
-                 start_lambda = 20,
+                 start_lambda = 15,
                  end_lambda = 1,
                  alpha = 1):
         """Agent implementing both Multi-Network, Multi-Head and Single-head 
@@ -185,7 +186,7 @@ class DeepAgent():
         self.actions = actions
         self.lstm = lstm
         self.non_local = non_local
-        self.start_lambda = 20
+        self.start_lambda = 15
         self.end_lambda = 1
         self.alpha = 1
 
@@ -246,9 +247,9 @@ class DeepAgent():
                     filters=int(filters / self.scale),
                     kernel_size=kernel_size,
                     strides=strides,
-                    activation='relu',
                     name="conv{}".format(c)))(x)
-            x = TimeDistributed(MaxPool2D())(x)
+            x = LEAKY_RELU()(x)
+            x = TimeDistributed(MaxPooling2D())(x)
             if non_local_block:
                 x = self.non_local_block(x, 'embedded gaussian', True)
 
@@ -256,8 +257,8 @@ class DeepAgent():
         x = Dense(
             int(POST_CONV_DENSE_SIZE / self.scale),
             kernel_initializer=DENSE_INIT,
-            activation='relu',
             name="post_conv_dense")(x)
+        x = LEAKY_RELU()(x)
         
 
         if self.lstm:
@@ -349,21 +350,19 @@ class DeepAgent():
 
         # Build a dueling head with the required amount of outputs
         head_dense = [
-            Dense(
+            LEAKY_RELU()(Dense(
                 per_stream_dense_size,
                 name='dueling_0_{}'.format(a),
-                activation='relu',
-                kernel_initializer=DENSE_INIT)(features)
+                kernel_initializer=DENSE_INIT)(features))
             for a in range(2)
         ]
 
         for depth in range(1, DUELING_DEPTH):
             head_dense = [
-                Dense(
+                LEAKY_RELU()(Dense(
                     per_stream_dense_size,
                     name='dueling_{}_{}'.format(depth, a),
-                    activation='relu',
-                    kernel_initializer=DENSE_INIT)(head_dense[a])
+                    kernel_initializer=DENSE_INIT)(head_dense[a]))
                 for a in range(2)
             ]
 
@@ -867,14 +866,14 @@ class DeepAgent():
                                                           0, start_steps)
 
     def update_lambda(self, steps):
-        start_steps = 10000
-        annealing_steps = (self.total_steps-10000) * self.alpha
+        start_steps = self.learning_steps * self.start_annealing
+        annealing_steps = self.total_steps * self.alpha
 
         self.k = self.linear_anneal_lambda(steps, annealing_steps, self.start_lambda, self.end_lambda, start_steps)
 
     def linear_anneal_lambda(self, steps, annealing_steps, start_lambda, end_lambda, start_steps):
         t = max(0, steps - start_steps)
-        return max(end_lambda, (annealing_steps - t) * (start_lambda - end_lambda) / annealing_steps + end_lambda)
+        return max(end_lambda, (annealing_steps-t) * (start_lambda - end_lambda) / annealing_steps + end_lambda)
 
     def memorize(self,
                  state,
