@@ -644,14 +644,15 @@ class AttentiveMemoryBuffer(PrioritizedDiverseMemory):
         input_t = tf.convert_to_tensor(state, dtype=np.float32)
         x = Lambda(lambda x: x / 255., name="input_normalizer")(input_t)
 
-        x = TimeDistributed(Conv2D(filters=32, kernel_size=6, strides=2, 
-                                    activation='relu', kernel_initializer=initializers.GlorotUniform(seed),
+        x = TimeDistributed(Conv2D(filters=32, kernel_size=6, strides=6, 
+                                    kernel_initializer=initializers.GlorotUniform(seed),
                                     input_shape=x.shape))(x)
-        x = TimeDistributed(MaxPool2D())(x)
+        x = LeakyReLU(0.01)(x)
+        x = TimeDistributed(MaxPooling2D())(x)
 
-        x = TimeDistributed(Conv2D(filters=64, kernel_size=5, strides=2, 
-                                    activation='relu', kernel_initializer=initializers.GlorotUniform(seed)))(x)
-        x = TimeDistributed(MaxPool2D())(x)
+        # x = TimeDistributed(Conv2D(filters=64, kernel_size=5, strides=2, 
+        #                             activation='relu', kernel_initializer=initializers.GlorotUniform(seed)))(x)
+        # x = TimeDistributed(MaxPool2D())(x)
 
         x = Flatten()(x)
         state = x.numpy()

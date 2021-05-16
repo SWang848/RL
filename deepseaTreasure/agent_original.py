@@ -1,5 +1,4 @@
 from __future__ import print_function
-
 import gc
 import math
 import os
@@ -7,17 +6,19 @@ import random
 import time
 from optparse import OptionParser
 
+import tensorflow as tf
+
 import keras.backend as K
 import scipy.spatial
 from operator import mul
-from keras import initializers
+from tensorflow.keras import initializers
 from keras.backend.tensorflow_backend import set_session
 from keras.callbacks import LearningRateScheduler
-from keras.layers import *
-from keras.layers.pooling import *
+from tensorflow.keras.layers import *
+# from keras.layers.pooling import *
 from keras.losses import mean_absolute_error, mean_squared_error
-from keras.models import Model, load_model
-from keras.optimizers import *
+from tensorflow.keras.models import Model, load_model
+from tensorflow.keras.optimizers import *
 from keras.utils import np_utils
 
 from config_agent import *
@@ -32,10 +33,10 @@ from deep_sea_treasure import DeepSeaTreasure
 
 import pandas as pd
 
+def LEAKY_RELU(): return LeakyReLU(0.01)
+
 # physical_devices = tf.config.experimental.list_physical_devices('GPU')
 # tf.config.experimental.set_memory_growth(physical_devices[0], True)
-
-def LEAKY_RELU(): return LeakyReLU(0.01)
 
 def generate_weights(count=1, n=3, m=1):
     all_weights = []
@@ -115,7 +116,7 @@ class DeepAgent():
                  max_episode_length=1000,
                  lstm=False,
                  non_local=False,
-                 start_lambda = 3,
+                 start_lambda = 10,
                  end_lambda = 1,
                  alpha = 1):
         """Agent implementing both Multi-Network, Multi-Head and Single-head 
@@ -186,7 +187,7 @@ class DeepAgent():
         self.actions = actions
         self.lstm = lstm
         self.non_local = non_local
-        self.start_lambda = 3
+        self.start_lambda = 20
         self.end_lambda = 1
         self.alpha = 1
 
@@ -249,7 +250,7 @@ class DeepAgent():
                     strides=strides,
                     name="conv{}".format(c)))(x)
             x = LEAKY_RELU()(x)
-            x = TimeDistributed(MaxPooling2D())(x)
+            x = TimeDistributed(MaxPool2D())(x)
             if non_local_block:
                 x = self.non_local_block(x, 'embedded gaussian', True)
 
@@ -868,12 +869,14 @@ class DeepAgent():
     def update_lambda(self, steps):
         start_steps = self.learning_steps * self.start_annealing
         annealing_steps = self.total_steps * self.alpha
+        # start_steps = 10000
+        # annealing_steps = (self.total_steps-10000) * self.alpha
 
         self.k = self.linear_anneal_lambda(steps, annealing_steps, self.start_lambda, self.end_lambda, start_steps)
 
     def linear_anneal_lambda(self, steps, annealing_steps, start_lambda, end_lambda, start_steps):
         t = max(0, steps - start_steps)
-        return max(end_lambda, (annealing_steps-t) * (start_lambda - end_lambda) / annealing_steps + end_lambda)
+        return max(end_lambda, (annealing_steps - t) * (start_lambda - end_lambda) / annealing_steps + end_lambda)
 
     def memorize(self,
                  state,
@@ -1203,7 +1206,7 @@ if __name__ == "__main__":
     # np.round(options.discount, 4), options.updates,
     # np.round(options.lr, 4),
     # np.round(options.scale, 2), np.round(options.steps, 2), np.round(options.mem_a, 2), np.round(options.mem_e, 2))
-    extra = "AP_6-regular"
+    extra = "AP_5-regular"
 
     agent = DeepAgent(
         range(4), #range(ACTION_COUNT). e.g. range(6)
