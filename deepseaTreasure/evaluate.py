@@ -127,9 +127,12 @@ def cal_adhesion(file_path):
 
             # if log[0] == stop:
             #     break
-            
-    
-    plt.plot(steps_list[::8], adhesion_list[::8])
+
+
+    plt.plot(steps_list[::8], adhesion_list[::8], color='navy', linewidth=3, alpha=0.4)
+
+    mean_adhesion_list = [sum(adhesion_list[i:i+8])/8 for i in range(0,len(adhesion_list)-8,8)]
+    plt.plot(steps_list[:-8:8], mean_adhesion_list, color='indigo')
 
     plt.title('adhesion degree')
     plt.xlabel('steps')
@@ -143,7 +146,11 @@ def cal_adhesion(file_path):
     ax.xaxis.set_major_locator(x_major_locator)
     plt.xlim(0, 3200)
 
+    for i in range(0, 10, 1):
+        plt.hlines(i/10, 0, len(steps_list), colors = "black", linestyles = "dashed")
     # plt.savefig(log_file+'.jpg')
+
+    # plt.legend()
     plt.show()
     plt.close()
 
@@ -300,9 +307,18 @@ def draw_episodes(file_path):
     plt.show()
 
 
+<<<<<<< HEAD
 logs_file_path = os.path.join(os.getcwd(), 'output/logs/rewards_P_4-regular')
 transitions_file_path = os.path.join(os.getcwd(), 'output/logs/rewards_P_4-regular-transitions_logs')
 episodes_evaluate(logs_file_path)
 draw_episodes(logs_file_path)
 cal_adhesion(transitions_file_path)
 cal_adhesion_2(transitions_file_path, [1004, 10036], 1)
+=======
+logs_file_path = os.path.join(os.getcwd(), '***logs/rewards_AP_1-regular')
+transitions_file_path = os.path.join(os.getcwd(), '***logs/rewards_P_1-regular-transitions_logs')
+# episodes_evaluate(logs_file_path)
+# draw_episodes(logs_file_path)
+cal_adhesion(transitions_file_path)
+# cal_adhesion_2(transitions_file_path, [1004, 10036], 1)
+>>>>>>> d4cc1e3033a41523d80fb4bfaeb5824721d862b8
