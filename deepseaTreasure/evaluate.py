@@ -300,9 +300,9 @@ def draw_episodes(file_path):
     plt.show()
 
 
-logs_file_path = os.path.join(os.getcwd(), '***logs/rewards_AP_4-regular')
-transitions_file_path = os.path.join(os.getcwd(), '***logs/rewards_AP_4-regular-transitions_logs')
-# episodes_evaluate(logs_file_path)
-# draw_episodes(logs_file_path)
-# cal_adhesion(transitions_file_path)
+logs_file_path = os.path.join(os.getcwd(), 'output/logs/rewards_P_4-regular')
+transitions_file_path = os.path.join(os.getcwd(), 'output/logs/rewards_P_4-regular-transitions_logs')
+episodes_evaluate(logs_file_path)
+draw_episodes(logs_file_path)
+cal_adhesion(transitions_file_path)
 cal_adhesion_2(transitions_file_path, [1004, 10036], 1)
