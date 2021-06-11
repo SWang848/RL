@@ -195,10 +195,65 @@ def cal_adhesion_2(file_path, record_range, sample_interval=1):
     plt.show()
     plt.close()
             
+def draw_several_episodes(file_path, number_list, item):
+
+    all_regret_list = []
+    all_steps_list = []
+    for i in number_list:
+        data = pd.read_csv(file_path+'rewards_{}_{}-regular.csv'.format(item, i))
+        step_list = data['step'].astype(int).to_list()
+        new_steps_list = []
+        regret_list = []
+
+        flag = [temp for temp in range(step_list[0], step_list[-1], 100)]
+
+        new_steps_list.append(step_list[0])
+        regret_list.append(data['regret'][0])
+        j = 1
+
+        for i in range(1, len(step_list)-1, 1):
+            if j == len(flag):
+                break
+            # prevent the situation that the agent runs over 100 step
+            while step_list[i] - flag[j] >= 99:
+                j = j + 1
+            
+            # to find the cloest the step to the drawing point
+            if step_list[i] >= (flag[j] - 99) and step_list[i] <= (flag[j] + 99):
+                if abs(step_list[i+1] - flag[j]) < abs(step_list[i] - flag[j]):
+                    continue
+                else:
+                    new_steps_list.append(step_list[i])
+                    regret_list.append(data['regret'][i])
+                    j = j + 1
+
+        all_regret_list.append(regret_list)
+        all_steps_list.append(new_steps_list)
+        plt.plot(new_steps_list, regret_list, alpha=0.4)
+
+    all_steps_matrix = np.zeros([len(all_steps_list), len(min(all_steps_list, key=lambda x:len(x)))])
+    for i,j in enumerate(all_steps_list):
+        all_steps_matrix[i][:] = j[0:all_steps_matrix.shape[1]]
+
+    all_regret_matrix = np.zeros([len(all_regret_list), len(min(all_regret_list, key=lambda x:len(x)))])
+    for i,j in enumerate(all_regret_list):
+        all_regret_matrix[i][0:len(j)] = j[0:all_regret_matrix.shape[1]]
+    plt.plot(list(np.round(all_steps_matrix.sum(axis=0)/all_steps_matrix.shape[0])), 
+                list(all_regret_matrix.sum(axis=0)/all_regret_matrix.shape[0]))
+
+    
+
+    ax = plt.gca()
+    x_major_locator = MultipleLocator(10000)
+    plt.tick_params(axis='x', labelsize=6)
+    ax.xaxis.set_major_locator(x_major_locator)
+    for i in range(0, 20001, 2500):
+        plt.hlines(i, 0, 100000, colors = "black", linestyles = "dashed")
+    plt.show()
+
 
 def draw_episodes(file_path):
-    log_file = file_path 
-    data = pd.read_csv(log_file+'.csv')
+    data = pd.read_csv(file_path+'.csv')
 
     step_list = data['step'].to_list()
     new_steps_list = []
@@ -307,18 +362,12 @@ def draw_episodes(file_path):
     plt.show()
 
 
-<<<<<<< HEAD
-logs_file_path = os.path.join(os.getcwd(), 'output/logs/rewards_P_4-regular')
-transitions_file_path = os.path.join(os.getcwd(), 'output/logs/rewards_P_4-regular-transitions_logs')
-episodes_evaluate(logs_file_path)
-draw_episodes(logs_file_path)
-cal_adhesion(transitions_file_path)
-cal_adhesion_2(transitions_file_path, [1004, 10036], 1)
-=======
-logs_file_path = os.path.join(os.getcwd(), '***logs/rewards_AP_1-regular')
-transitions_file_path = os.path.join(os.getcwd(), '***logs/rewards_P_1-regular-transitions_logs')
+# logs_file_path = os.path.join(os.getcwd(), 'output/logs/rewards_AP_8-regular')
+# transitions_file_path = os.path.join(os.getcwd(), 'output/logs/rewards_AP_7-regular-transitions_logs')
 # episodes_evaluate(logs_file_path)
 # draw_episodes(logs_file_path)
-cal_adhesion(transitions_file_path)
+# cal_adhesion(transitions_file_path)
 # cal_adhesion_2(transitions_file_path, [1004, 10036], 1)
->>>>>>> d4cc1e3033a41523d80fb4bfaeb5824721d862b8
+
+logs_file_path = os.path.join(os.getcwd(), 'output/logs/')
+draw_several_episodes(logs_file_path, [i for i in range(4, 17)], "AP")
