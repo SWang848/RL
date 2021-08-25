@@ -4,7 +4,7 @@ import numpy as np
 from optparse import OptionParser
 
 from deep_sea_treasure import DeepSeaTreasure
-from agent import DCRACSAgent, DCRACAgent, DCRACSEAgent, DCRAC0Agent, CNAgent, CN0Agent
+from agent_dst import DCRACSAgent, DCRACAgent, DCRACSEAgent, DCRAC0Agent, CNAgent, CN0Agent
 from utils import mkdir_p, get_weights_from_json
 from stats import rebuild_log, print_stats, compute_log
 

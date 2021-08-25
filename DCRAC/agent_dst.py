@@ -54,7 +54,7 @@ class DCRACAgent:
                  gpu_setting='1'):
         
         self.env = env
-        self.pixel_env = pixel_env
+        # self.pixel_env = pixel_env
         # those are for dst env
         self.nb_action = self.env.action_space.shape[0]
         self.observation_shape = self.env.observation_space.shape
@@ -341,8 +341,8 @@ class DCRACAgent:
 
     def policy_update(self, update_actor=True):
         # np.random.seed(self.steps)
-        # ids, batch, _ = self.buffer.sample(self.batch_size)
 
+        # ids, batch, _ = self.buffer.sample(self.batch_size)
         ids, batch, _ = self.buffer.sampel(self.sample_size, self.k, self.steps, self.wegihts, self.current_state)
 
         if self.direct_update:
