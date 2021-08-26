@@ -129,11 +129,11 @@ class DCRACAgent:
         self.gpu_setting = gpu_setting
 
         # Tensorflow GPU optimization.
-        config = tf.ConfigProto()
+        config = tf.compat.v1.ConfigProto()
         config.gpu_options.allow_growth = True
-        sess = tf.Session(config=config)
-        from keras import backend as K
-        K.set_session(sess)
+        sess = tf.compat.v1.Session(config=config)
+        # from keras import backend as K
+        tf.compat.v1.keras.backend.set_session(sess)
 
         # Initialize the history 
         self.history = History(self.timesteps, self.im_shape, self.nb_action)
@@ -285,7 +285,7 @@ class DCRACAgent:
         """
         # np.random.seed(self.steps)
         if np.random.random() < self.epsilon:
-            return np.random.choice(self.env.action_space), (np.ones(self.nb_action)/self.nb_action)
+            return np.random.choice(self.env.action_space()), (np.ones(self.nb_action)/self.nb_action)
 
         trace_a = self._get_onehot_action_trace(trace_a)
         weights = self.weights if weights is None else weights
@@ -343,7 +343,7 @@ class DCRACAgent:
         # np.random.seed(self.steps)
         # ids, batch, _ = self.buffer.sample(self.batch_size)
 
-        ids, batch, _ = self.buffer.sampel(self.sample_size, self.k, self.steps, self.wegihts, self.current_state)
+        ids, batch, _ = self.buffer.sample(self.batch_size, self.k, self.steps, self.weights, self.current_state)
 
         if self.direct_update:
             # Add recent experiences to the priority update batch
@@ -610,7 +610,7 @@ class DCRACAgent:
         #     value_function=der_trace_value, trace_diversity=True, a=self.buffer_a, e=self.buffer_e)
 
         self.buffer = AttentiveMemoryBuffer(main_capacity=main_capacity, sec_capacity=sec_capacity,
-            value_function=der_trace_value, trace_diversity=True, a=self.mem_a, e=self.mem_e)
+            value_function=der_trace_value, trace_diversity=True, a=self.buffer_a, e=self.buffer_e)
 
     def memorize(self, state, action, reward, next_state, terminal, action_prev, acts_prob, 
         initial_error=0, trace_id=None, pred_idx=None):
@@ -683,7 +683,7 @@ class DCRACSAgent(DCRACAgent):
     def pick_action(self, trace_o, trace_a, weights=None):
         # np.random.seed(self.steps)
         if np.random.random() < self.epsilon:
-            return np.random.choice(self.env.action_space), (np.ones(self.nb_action)/self.nb_action)
+            return np.random.choice(self.env.action_space()), (np.ones(self.nb_action)/self.nb_action)
 
         trace_a = self._get_onehot_action_trace(trace_a)
         weights = self.weights if weights is None else weights
@@ -810,7 +810,7 @@ class CNAgent(DCRACAgent):
         """
         # np.random.seed(self.steps)
         if np.random.random() < self.epsilon:
-            return np.random.choice(self.env.action_space), (np.ones(self.nb_action)/self.nb_action)
+            return np.random.choice(self.env.action_space()), (np.ones(self.nb_action)/self.nb_action)
 
         trace_a = self._get_onehot_action_trace(trace_a)
         weights = self.weights if weights is None else weights

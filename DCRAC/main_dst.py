@@ -24,6 +24,7 @@ mkdir_p("output/pred")
 mkdir_p("output/imgs")
 
 parser = OptionParser()
+parser.add_option("--seed", dest="seed", default=0)
 parser.add_option("-a", "--agent", dest="agent", choices=["DCRAC", "DCRACS", "DCRACSE", "DCRAC0", "CN", "CN0"], default="DCRACS")
 parser.add_option("-n", "--net-type", dest="net_type", choices=["R", "M", "F"], default="R", help="Agent architecture type: Recurrent, MemNN or FC")
 parser.add_option("-r", "--replay", dest="replay", default="DER", choices=["STD", "DER"], help="Replay type, one of 'STD','DER'")
@@ -56,7 +57,8 @@ hyper_info = "{}_{}-r{}{}-d{}-t{}-batsiz{}-{}steps-lr{}-lr2{}-{}-acteval_{}".for
     options.batch_size, options.steps, str(options.lr_c), str(options.lr_a), options.mode, options.obj_func)
 
 # create evironment
-env = DeepSeaTreasure(view=(5,5), scale=9) if options.dst_view == '5' else DeepSeaTreasure(view=(3,3), scale=15)
+# env = DeepSeaTreasure(view=(5,5), scale=9) if options.dst_view == '5' else DeepSeaTreasure(view=(3,3), scale=15)
+env = DeepSeaTreasure(full=True)
 
 all_weights = get_weights_from_json('./train_weights_dst.json') if options.mode == "sparse" else get_weights_from_json('./train_weights_dst_r.json')
 timestamp = time.strftime("%m%d_%H%M", time.localtime())
