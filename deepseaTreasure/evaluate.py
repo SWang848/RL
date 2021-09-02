@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 import time
 import os
+import pickle
 
 RESULT_FILE_PATH = 'output/results.csv'
 def cal_opt_penality(r, discount):
@@ -32,6 +33,12 @@ OPT = {
 
 OPT_R = np.array([OPT['r1'],OPT['r2']]).T
 
+f = open('dst.pkl', 'rb')
+inf = pickle.load(f)
+OPT_R = inf[0.95]
+
+print(OPT_R)
+
 def parse_array(text):
     array = text.lstrip(' [').rstrip(' ]').split()
     array = [eval(a) for a in array]
@@ -40,52 +47,60 @@ def parse_array(text):
 def episodes_evaluate(file_path):
     regret_list = []
     steps_list = []
-    scal_reward_list = []
+    weight_list = []
+    opt_scal_reward_list = []
+    act_scal_rewards_list = []
+    error_list = []
+    act_reward_list = []
     opt_reward_list = []
-    act_treasure = []
     opt_treasure = []
+    regret_increase_list = []
     error = 0
     total_eps = 0
     total_reward = 0
     total_regret = 0
-    error_list = []
     treasure = [18, 26, 31, 44, 48.2, 56, 72, 76.3, 90, 100]
+
     with open(file_path, 'r') as fin:
         for line in fin.readlines():
             line = line.rstrip('\n')
             log = line.split(';')
             if log[0] == 'episode':
                 steps_list.append(log[1])
-                # print(log[1])
+
                 weight = parse_array(log[-2])
+                weight_list.append(weight)
+
                 error = log[-4]
-                # print(weight)
-                # reward = parse_array(log[7])
-                scal_reward = eval(log[5])
-                act_treasure.append(parse_array(log[7])[0])
-                scal_reward_list.append(scal_reward)
-                # disc_reward = parse_array(log[6])
-                # print(disc_reward)
-                # scal_reward = np.dot(disc_reward, weight)
-                # print(scal_reward)
-                opt_reward = max(np.dot(OPT_R, weight))
+                error_list.append(error)
+
+                act_scal_reward = eval(log[5])
+                act_scal_rewards_list.append(act_scal_reward)
+
+                act_reward = parse_array(log[6])
+                act_reward_list.append(act_reward)
+
+                opt_scal_reward = max(np.dot(OPT_R, weight))
+                opt_scal_reward_list.append(opt_scal_reward)
                 opt_treasure.append(treasure[np.argmax(np.dot(OPT_R, weight))])
+
+                opt_reward = OPT_R[np.argmax(np.dot(OPT_R, weight))]
                 opt_reward_list.append(opt_reward)
 
-                # print(opt_reward)
                 total_eps += 1
+                total_reward += act_scal_reward
 
-                total_reward += scal_reward
                 # if opt_reward - scal_reward < 0:
                 #     # print(log[1])
                 #     # print(weight)
                 #     # print(opt_reward)
                 #     error += (opt_reward - scal_reward)
-                total_regret += (opt_reward - scal_reward)
+                regret_increase_list.append(opt_scal_reward - act_scal_reward)
+                total_regret += opt_scal_reward - act_scal_reward
                 regret_list.append(total_regret)
-                error_list.append(error)
 
-    df = pd.DataFrame({'step':steps_list, 'regret':regret_list, 'scal_reward':scal_reward_list, 'act_treasure':act_treasure, 'opt_reward':opt_reward_list, 'opt_treasure':opt_treasure, 'error':error_list})
+    df = pd.DataFrame({'step':steps_list, 'regret':regret_list, 'increase':regret_increase_list, 'weight':weight_list, 'act_scal_reward':act_scal_rewards_list, 'act_reward':act_reward_list, 
+            'opt_scal_reward':opt_scal_reward_list, 'opt_reward':opt_reward_list, 'opt_treasure':opt_treasure, 'error':error_list})
     df.to_csv(file_path+'.csv')
 
 def logs_evaluate(file_path):
@@ -252,6 +267,8 @@ def draw_several_episodes(file_path, P_number_list, AP_number_list):
         all_regret_list.append(regret_list)
         all_steps_list.append(new_steps_list)
         plt.plot(new_steps_list, regret_list, color='blue', alpha=0.31)
+        # print(len(new_steps_list))
+        print(regret_list[-1])
 
     all_steps_matrix = np.zeros([len(all_steps_list), len(min(all_steps_list, key=lambda x:len(x)))])
     for i,j in enumerate(all_steps_list):
@@ -264,9 +281,9 @@ def draw_several_episodes(file_path, P_number_list, AP_number_list):
                 list(all_regret_matrix.sum(axis=0)/all_regret_matrix.shape[0]), color='blue', linestyle='-.', label='average AP')
     
     
-    plt.title('Total Regret')
-    plt.xlabel('Steps')
-    plt.ylabel('Total Regret')
+    # plt.title('Total Regret')
+    plt.xlabel('Steps', fontsize=15)
+    plt.ylabel('Total Regret', fontsize=15)
     plt.legend()
     ax = plt.gca()
     x_major_locator = MultipleLocator(10000)
@@ -386,14 +403,62 @@ def draw_episodes(file_path):
     # plt.savefig(log_file+'.jpg')
     plt.show()
 
+def avg_regret(file_path):
+    all_avg_dict = {'AP':list(), 'P':list()}
+    episodes_50_dict = {'AP':list(), 'P':list()}
+    steps_25k_dict = {'AP':list(), 'P':list()}
+    for file in os.listdir(file_path):
+        if file.endswith('csv'):
+            data = pd.read_csv(os.path.join(file_path, file))
+            step_list = data['step'].to_list()
+            regret_list = data['increase'].to_list()
+            all_avg = sum(regret_list)/len(regret_list)
+            episodes_50 = sum(regret_list[-50:])/50
 
-# logs_file_path = os.path.join(os.getcwd(), 'output/logs/rewards_AP_3-regular')
-# transitions_file_path = os.path.join(os.getcwd(), 'output/logs/rewards_AP_7-regular-transitions_logs')
+            i = step_list[-1]-25000
+            j = i
+            while i not in step_list:
+                i = i + 1
+                j = j - 1
+                if j in step_list:
+                    break
+
+            position = step_list.index(i) if i in step_list else step_list.index(j)
+            steps_25k = sum(regret_list[-(len(step_list)-position):])/(len(step_list)-position)
+
+            if "_AP_" in file:
+                all_avg_dict['AP']+=[all_avg]
+                steps_25k_dict['AP']+=[steps_25k]
+                episodes_50_dict['AP']+=[episodes_50]
+            elif "_P_" in file:
+                all_avg_dict['P']+=[all_avg]
+                steps_25k_dict['P']+=[steps_25k]
+                episodes_50_dict['P']+=[episodes_50]
+
+    ap_all_avg = sum(all_avg_dict['AP'])/len(all_avg_dict['AP'])
+    p_all_avg = sum(all_avg_dict['P'])/len(all_avg_dict['P'])
+
+    ap_25k_avg = sum(steps_25k_dict['AP'])/len(steps_25k_dict['AP'])
+    p_25k_avg = sum(steps_25k_dict['P'])/len(steps_25k_dict['P'])
+
+    ap_50_avg = sum(episodes_50_dict['AP'])/len(episodes_50_dict['AP'])
+    p_50_avg = sum(episodes_50_dict['P'])/len(episodes_50_dict['P'])
+
+    print(ap_all_avg, p_all_avg)
+    print(ap_25k_avg, p_25k_avg)
+    print(ap_50_avg, p_50_avg)
+            
+
+logs_file_path = os.path.join(os.getcwd(), 'output/logs/rewards_AP_19-regular')
+# transitions_file_path = os.path.join(os.getcwd(), 'output/logs/rewards_P_17-regular-transitions_logs')
 # episodes_evaluate(logs_file_path)
 # draw_episodes(logs_file_path)
 # cal_adhesion(transitions_file_path)
 # cal_adhesion_2(transitions_file_path, [1004, 10036], 1)
 
 logs_file_path = os.path.join(os.getcwd(), 'output/logs/')
-draw_several_episodes(logs_file_path, [i for i in range(1, 17)], [i for i in range(4, 12)]+[13,14,15,16])
+draw_several_episodes(logs_file_path, [i for i in range(1, 20)], [i for i in range(1, 20)])
 # draw_several_episodes(logs_file_path, [12], "AP")
+
+# avg_regret(os.path.join(os.getcwd(), 'output/logs/'))
+
