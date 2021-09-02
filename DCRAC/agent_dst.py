@@ -342,8 +342,8 @@ class DCRACAgent:
     def policy_update(self, update_actor=True):
         # np.random.seed(self.steps)
 
-        # ids, batch, _ = self.buffer.sample(self.batch_size)
-        ids, batch, _ = self.buffer.sample(self.batch_size, self.k, self.steps, self.weights, self.current_state)
+        ids, batch, _ = self.buffer.sample(self.batch_size)
+        # ids, batch, _ = self.buffer.sampel(self.sample_size, self.k, self.steps, self.wegihts, self.current_state)
 
         if self.direct_update:
             # Add recent experiences to the priority update batch
@@ -606,11 +606,11 @@ class DCRACAgent:
             self.trace_values[trace_id] = value
             return value
 
-        # self.buffer = MemoryBuffer(main_capacity=main_capacity, sec_capacity=sec_capacity,
-        #     value_function=der_trace_value, trace_diversity=True, a=self.buffer_a, e=self.buffer_e)
+        self.buffer = MemoryBuffer(main_capacity=main_capacity, sec_capacity=sec_capacity,
+            value_function=der_trace_value, trace_diversity=True, a=self.buffer_a, e=self.buffer_e)
 
-        self.buffer = AttentiveMemoryBuffer(main_capacity=main_capacity, sec_capacity=sec_capacity,
-            value_function=der_trace_value, trace_diversity=True, a=self.mem_a, e=self.mem_e)
+        # self.buffer = AttentiveMemoryBuffer(main_capacity=main_capacity, sec_capacity=sec_capacity,
+        #     value_function=der_trace_value, trace_diversity=True, a=self.mem_a, e=self.mem_e)
 
     def memorize(self, state, action, reward, next_state, terminal, action_prev, acts_prob, 
         initial_error=0, trace_id=None, pred_idx=None):

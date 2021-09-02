@@ -84,7 +84,7 @@ minecart = Minecart.from_json(json_file)
 pixel_minecart = PixelMinecart(minecart)
 obj_cnt = minecart.obj_cnt()
 
-all_weights = list(np.loadtxt("regular_weights"))
+all_weights = list(np.loadtxt("regular_weights_mine"))
 
 # all_weights = get_weights_from_json('./train_weights_dst.json') if options.mode == "sparse" else get_weights_from_json('./train_weights_dst_r.json')
 timestamp = time.strftime("%m%d_%H%M", time.localtime())
