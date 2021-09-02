@@ -135,7 +135,6 @@ class DCRACAgent:
         # from keras import backend as K
         tf.compat.v1.keras.backend.set_session(sess)
 
-
         # Initialize the history 
         self.history = History(self.timesteps, self.im_shape, self.nb_action)
 
