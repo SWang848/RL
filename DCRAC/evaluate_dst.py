@@ -66,18 +66,18 @@ def episodes_evaluate(file_path):
             line = line.rstrip('\n')
             log = line.split(';')
             if log[0] == 'episode':
-                steps_list.append(log[1])
+                steps_list.append(log[2])
 
-                weight = parse_array(log[-2])
+                weight = parse_array(log[-1])
                 weight_list.append(weight)
 
-                error = log[-4]
+                error = log[-2]
                 error_list.append(error)
 
-                act_scal_reward = eval(log[5])
+                act_scal_reward = eval(log[6])
                 act_scal_rewards_list.append(act_scal_reward)
 
-                act_reward = parse_array(log[6])
+                act_reward = parse_array(log[7])
                 act_reward_list.append(act_reward)
 
                 opt_scal_reward = max(np.dot(OPT_R, weight))
@@ -449,15 +449,15 @@ def avg_regret(file_path):
     print(ap_50_avg, p_50_avg)
             
 
-logs_file_path = os.path.join(os.getcwd(), 'output/logs/rewards_AP_19-regular')
+logs_file_path = os.path.join(os.getcwd(), 'output/logs/rewards_P_1-sparse-dst')
 # transitions_file_path = os.path.join(os.getcwd(), 'output/logs/rewards_P_17-regular-transitions_logs')
-# episodes_evaluate(logs_file_path)
-# draw_episodes(logs_file_path)
+episodes_evaluate(logs_file_path)
+draw_episodes(logs_file_path)
 # cal_adhesion(transitions_file_path)
 # cal_adhesion_2(transitions_file_path, [1004, 10036], 1)
 
 logs_file_path = os.path.join(os.getcwd(), 'output/logs/')
-draw_several_episodes(logs_file_path, [i for i in range(1, 20)], [i for i in range(1, 20)])
+# draw_several_episodes(logs_file_path, [i for i in range(1, 20)], [i for i in range(1, 20)])
 # draw_several_episodes(logs_file_path, [12], "AP")
 
 # avg_regret(os.path.join(os.getcwd(), 'output/logs/'))
