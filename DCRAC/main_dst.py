@@ -90,7 +90,7 @@ agent = deep_agent(env,
 steps_per_weight = 5000 if options.mode == "sparse" else 1
 
 # log_file_name = 'output/logs/{}_dst{}_rewards_{}.log'.format(timestamp, options.dst_view, hyper_info)
-log_file_name = 'output/logs/rewards_P_2-regular-dst'
+log_file_name = 'output/logs/rewards_P_3-regular-dst'
 with open(log_file_name, 'w', 1) as log_file:
     agent.train(log_file, options.steps, all_weights, steps_per_weight, options.steps*10, log_game_step=options.log_game)
 
