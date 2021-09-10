@@ -31,7 +31,7 @@ parser.add_option("-r", "--replay", dest="replay", default="DER", choices=["STD"
 parser.add_option("-s", "--buffer-size", dest="buffer_size", default="100000", help="Replay buffer size", type=int)
 parser.add_option("-m", "--memnn-size", dest="memnn_size", default="9", help="Memory network memory size", type=int)
 parser.add_option("-d", "--dup", dest="dup", action="store_false", default=True, help="Extra training")
-parser.add_option("-t", "--timesteps", dest="timesteps", default="3", help="Recurrent timesteps", type=int)
+parser.add_option("-t", "--timesteps", dest="timesteps", default="10", help="Recurrent timesteps", type=int)
 parser.add_option("-e", "--end_e", dest="end_e", default="0.01", help="Final epsilon value", type=float)
 parser.add_option("-l", "--lr-c", dest="lr_c", default="0.02", help="Critic learning rate", type=float)
 parser.add_option("-L", "--lr-a", dest="lr_a", default="0.25", help="Actor learning rate", type=float)
