@@ -28,7 +28,7 @@ parser.add_option("--seed", dest="seed", default=0)
 parser.add_option("-a", "--agent", dest="agent", choices=["DCRAC", "DCRACS", "DCRACSE", "DCRAC0", "CN", "CN0"], default="DCRACS")
 parser.add_option("-n", "--net-type", dest="net_type", choices=["R", "M", "F"], default="R", help="Agent architecture type: Recurrent, MemNN or FC")
 parser.add_option("-r", "--replay", dest="replay", default="DER", choices=["STD", "DER"], help="Replay type, one of 'STD','DER'")
-parser.add_option("-s", "--buffer-size", dest="buffer_size", default="2500", help="Replay buffer size", type=int)
+parser.add_option("-s", "--buffer-size", dest="buffer_size", default="100000", help="Replay buffer size", type=int)
 parser.add_option("-m", "--memnn-size", dest="memnn_size", default="9", help="Memory network memory size", type=int)
 parser.add_option("-d", "--dup", dest="dup", action="store_false", default=True, help="Extra training")
 parser.add_option("-t", "--timesteps", dest="timesteps", default="10", help="Recurrent timesteps", type=int)
@@ -90,7 +90,7 @@ agent = deep_agent(env,
 steps_per_weight = 5000 if options.mode == "sparse" else 1
 
 # log_file_name = 'output/logs/{}_dst{}_rewards_{}.log'.format(timestamp, options.dst_view, hyper_info)
-log_file_name = 'output/logs/rewards_P_1-regular-dst'
+log_file_name = 'output/logs/rewards_P_2-regular-dst'
 with open(log_file_name, 'w', 1) as log_file:
     agent.train(log_file, options.steps, all_weights, steps_per_weight, options.steps*10, log_game_step=options.log_game)
 

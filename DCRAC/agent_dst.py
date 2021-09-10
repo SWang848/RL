@@ -211,7 +211,7 @@ class DCRACAgent:
             # memorize the experienced transition
             pred_idx = self.memorize(
                 self.current_state,
-                action, 
+                action,
                 reward,
                 next_state,
                 terminal,
