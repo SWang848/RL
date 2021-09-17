@@ -238,13 +238,44 @@ def _draw_episodes(data):
                 j = j + 1
     return new_steps_list, regret_list
 
+
+def _draw_avg_episodes(data):
+    step_list = data['step'].astype(int).to_list()
+
+    new_step_list = [i*100 for i in range(1, 1001)]
+    regret_list = [0 for i in range(1, 1001)]
+
+    i = 0
+    j = 0
+    count = 0
+    temp = 0
+
+    while i < len(step_list) and j < len(new_step_list):
+        if 0 <= new_step_list[j] - step_list[i] < 100:
+            temp += data['regret'][i]
+            count += 1
+            i += 1
+            regret_list[j] = temp/count
+        elif -100 < new_step_list[j] - step_list[i] < 0:
+            j += 1
+            temp = 0
+            count = 0
+        elif new_step_list[j] - step_list[i] <= -100:
+            j += 1
+            temp = 0
+            count = 0
+            regret_list[j] = regret_list[j-1]
+
+    return new_step_list, regret_list        
+
 def draw_several_episodes(file_path, P_number_list, AP_number_list):
 
     all_regret_list = []
     all_steps_list = []
     for i in P_number_list:
         data = pd.read_csv(file_path+'rewards_P_{}-regular.csv'.format(i))
-        new_steps_list, regret_list = _draw_episodes(data)
+        new_steps_list, regret_list = _draw_avg_episodes(data)
+        # print(len(new_steps_list))
         all_regret_list.append(regret_list)
         all_steps_list.append(new_steps_list)
         plt.plot(new_steps_list, regret_list, color='orange', alpha=0.31)
@@ -263,7 +294,7 @@ def draw_several_episodes(file_path, P_number_list, AP_number_list):
     all_steps_list = []
     for i in AP_number_list:
         data = pd.read_csv(file_path+'rewards_AP_{}-regular.csv'.format(i))
-        new_steps_list, regret_list = _draw_episodes(data)
+        new_steps_list, regret_list = _draw_avg_episodes(data)
         all_regret_list.append(regret_list)
         all_steps_list.append(new_steps_list)
         plt.plot(new_steps_list, regret_list, color='blue', alpha=0.31)
@@ -293,114 +324,40 @@ def draw_several_episodes(file_path, P_number_list, AP_number_list):
         plt.hlines(i, 0, 100000, colors = "black", linestyles = "dashed")
     plt.show()
 
+def draw_range_chart(file_path, P_number_list, AP_number_list):
 
-def draw_episodes(file_path):
-    data = pd.read_csv(file_path+'.csv')
+    all_regret_list = []
+    for i in P_number_list:
+        data = pd.read_csv(file_path+'rewards_P_{}-regular.csv'.format(i))
+        steps_list, regret_list = _draw_avg_episodes(data)
+        all_regret_list.append(regret_list)
 
-    step_list = data['step'].to_list()
-    new_steps_list = []
-    regret_list = []
-    error_list = []
-    act_treasure = []
-    opt_treasure = []
-
-    # sample the date per 100 steps
-    flag = [i for i in range(step_list[0],step_list[-1],100)]
-
-    new_steps_list.append(step_list[0])
-    regret_list.append(data['regret'][0])
-    error_list.append(data['error'][0])
-    act_treasure.append(data['act_treasure'][0])
-    opt_treasure.append(data['opt_treasure'][0])
-    j = 1
-
-    for i in range(1, len(step_list)-1, 1):
-        
-        if j == len(flag):
-            break
-        # prevent the situation that the agent runs over 100 step
-        while step_list[i] - flag[j] >= 99:
-            j = j + 1
-        
-        # to find the cloest the step to the drawing point
-        if step_list[i] >= (flag[j] - 99) and step_list[i] <= (flag[j] + 99):
-            if abs(step_list[i+1] - flag[j]) < abs(step_list[i] - flag[j]):
-                continue
-            else:
-                new_steps_list.append(step_list[i])
-                regret_list.append(data['regret'][i])
-                error_list.append(data['error'][i])
-                act_treasure.append(data['act_treasure'][i])
-                opt_treasure.append(data['opt_treasure'][i])
-                j = j + 1
-
-    # regret
-    ax1 = plt.subplot(1, 3, 1)
-    plt.sca(ax1)
-    plt.plot(new_steps_list, regret_list)
-
-    plt.title('Total Regret')
-    plt.xlabel('steps')
-    plt.ylabel('regret')
-
-    x_major_locator = MultipleLocator(10000)
-    ax = plt.gca()
-
-    ax.spines['right'].set_color('none')
-    ax.spines['top'].set_color('none')
-
-    ax.spines['bottom'].set_position(('data',0))  
-
-    plt.tick_params(axis='x', labelsize=6)
-    ax.xaxis.set_major_locator(x_major_locator)
-    plt.xlim(0, 100000)
-    for i in range(0, 100001, 5000):
-        plt.vlines(i, 0, 20000, colors = "black", linestyles = "dashed")
-
-    # treasure
-    ax2 = plt.subplot(1, 3, 2)
-    plt.sca(ax2)
-    plt.plot(new_steps_list, act_treasure, color='blue', label='actural treasure')
-    plt.plot(new_steps_list, opt_treasure, color='orange', label='optimal treasure')
-
-    plt.title('Treasure')
-    plt.xlabel('steps')
-    plt.ylabel('Treasure')
-
-    x_major_locator = MultipleLocator(10000)
-    ax = plt.gca()
-
-    ax.spines['right'].set_color('none')
-    ax.spines['top'].set_color('none')
-
-    ax.spines['bottom'].set_position(('data',0))  
-
-    plt.tick_params(axis='x', labelsize=6)
-    ax.xaxis.set_major_locator(x_major_locator)
-    plt.xlim(0, 100000)
-    for i in range(0, 100001, 5000):
-        plt.vlines(i, 0, 100, colors = "black", linestyles = "dashed")
-
-    plt.legend(loc="upper right")
+    all_regret_array = np.array(all_regret_list)
+    min_regret_list = all_regret_array.min(0)
+    max_regret_list = all_regret_array.max(0)
     
-    # error
-    ax3 = plt.subplot(1, 3, 3)
-    plt.sca(ax3)
-    plt.plot(new_steps_list, error_list)
-    plt.title('error')
-    plt.xlabel('steps')
-    plt.ylabel('error')
-
-    x_major_locator = MultipleLocator(10000)
-    ax = plt.gca()
-
-    ax.spines['bottom'].set_position(('data',0))  
-
-    plt.tick_params(axis='x', labelsize=6)
-    ax.xaxis.set_major_locator(x_major_locator)
-    plt.xlim(0, 100000)
+    fig, ax = plt.subplots()
+    ax.fill_between(steps_list, min_regret_list, max_regret_list, alpha=0.2)
     
-    # plt.savefig(log_file+'.jpg')
+    print(all_regret_array.shape)
+    ax.plot(steps_list, np.average(all_regret_array, axis=0), label="average P")
+
+    all_regret_list = []
+    for i in AP_number_list:
+        data = pd.read_csv(file_path+'rewards_AP_{}-regular.csv'.format(i))
+        steps_list, regret_list = _draw_avg_episodes(data)
+        all_regret_list.append(regret_list)
+
+    all_regret_array = np.array(all_regret_list)
+    min_regret_list = all_regret_array.min(0)
+    max_regret_list = all_regret_array.max(0)
+    
+    # fig, ax = plt.subplots()
+    ax.fill_between(steps_list, min_regret_list, max_regret_list, alpha=0.2)
+    
+    print(all_regret_array.shape)
+    ax.plot(steps_list, np.average(all_regret_array, axis=0), label="average AP")
+    plt.legend()
     plt.show()
 
 def avg_regret(file_path):
@@ -449,15 +406,20 @@ def avg_regret(file_path):
     print(ap_50_avg, p_50_avg)
             
 
-logs_file_path = os.path.join(os.getcwd(), 'output/logs/rewards_AP_19-regular')
+# logs_file_path = os.path.join(os.getcwd(), 'output/logs/rewards_AP_1-regular')
+# data = pd.read_csv(logs_file_path+'.csv')
+# a, b = _draw_avg_episodes(data)
+# plt.plot(a, b)
+# plt.show()
+
 # transitions_file_path = os.path.join(os.getcwd(), 'output/logs/rewards_P_17-regular-transitions_logs')
 # episodes_evaluate(logs_file_path)
-# draw_episodes(logs_file_path)
 # cal_adhesion(transitions_file_path)
 # cal_adhesion_2(transitions_file_path, [1004, 10036], 1)
 
 logs_file_path = os.path.join(os.getcwd(), 'output/logs/')
-draw_several_episodes(logs_file_path, [i for i in range(1, 20)], [i for i in range(1, 20)])
+# draw_several_episodes(logs_file_path, [i for i in range(1, 20)], [i for i in range(2, 20)])
+draw_range_chart(logs_file_path, [i for i in range(1, 20)], [i for i in range(2, 20)])
 # draw_several_episodes(logs_file_path, [12], "AP")
 
 # avg_regret(os.path.join(os.getcwd(), 'output/logs/'))
