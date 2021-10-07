@@ -239,7 +239,7 @@ def _draw_episodes(data):
     return new_steps_list, regret_list
 
 
-def _draw_avg_episodes(data):
+def _draw_avg_episodes(data, column):
     step_list = data['step'].astype(int).to_list()
 
     new_step_list = [i*100 for i in range(1, 1001)]
@@ -252,7 +252,7 @@ def _draw_avg_episodes(data):
 
     while i < len(step_list) and j < len(new_step_list):
         if 0 <= new_step_list[j] - step_list[i] < 100:
-            temp += data['regret'][i]
+            temp += data[column][i]
             count += 1
             i += 1
             regret_list[j] = temp/count
@@ -274,7 +274,7 @@ def draw_several_episodes(file_path, P_number_list, AP_number_list):
     all_steps_list = []
     for i in P_number_list:
         data = pd.read_csv(file_path+'rewards_P_{}-regular.csv'.format(i))
-        new_steps_list, regret_list = _draw_avg_episodes(data)
+        new_steps_list, regret_list = _draw_avg_episodes(data, 'regret')
         # print(len(new_steps_list))
         all_regret_list.append(regret_list)
         all_steps_list.append(new_steps_list)
@@ -294,7 +294,7 @@ def draw_several_episodes(file_path, P_number_list, AP_number_list):
     all_steps_list = []
     for i in AP_number_list:
         data = pd.read_csv(file_path+'rewards_AP_{}-regular.csv'.format(i))
-        new_steps_list, regret_list = _draw_avg_episodes(data)
+        new_steps_list, regret_list = _draw_avg_episodes(data, 'regret')
         all_regret_list.append(regret_list)
         all_steps_list.append(new_steps_list)
         plt.plot(new_steps_list, regret_list, color='blue', alpha=0.31)
@@ -329,7 +329,7 @@ def draw_range_chart(file_path, P_number_list, AP_number_list):
     all_regret_list = []
     for i in P_number_list:
         data = pd.read_csv(file_path+'rewards_P_{}-regular.csv'.format(i))
-        steps_list, regret_list = _draw_avg_episodes(data)
+        steps_list, regret_list = _draw_avg_episodes(data, 'regret')
         all_regret_list.append(regret_list)
 
     all_regret_array = np.array(all_regret_list)
@@ -345,7 +345,7 @@ def draw_range_chart(file_path, P_number_list, AP_number_list):
     all_regret_list = []
     for i in AP_number_list:
         data = pd.read_csv(file_path+'rewards_AP_{}-regular.csv'.format(i))
-        steps_list, regret_list = _draw_avg_episodes(data)
+        steps_list, regret_list = _draw_avg_episodes(data, 'regret')
         all_regret_list.append(regret_list)
 
     all_regret_array = np.array(all_regret_list)
@@ -356,7 +356,7 @@ def draw_range_chart(file_path, P_number_list, AP_number_list):
     ax.fill_between(steps_list, min_regret_list, max_regret_list, alpha=0.2)
     
     print(all_regret_array.shape)
-    ax.plot(steps_list, np.average(all_regret_array, axis=0), label="average AP")
+    ax.plot(steps_list, np.average(all_regret_array, axis=0), label="average NP")
     plt.legend()
     plt.show()
 
@@ -404,6 +404,65 @@ def avg_regret(file_path):
     print(ap_all_avg, p_all_avg)
     print(ap_25k_avg, p_25k_avg)
     print(ap_50_avg, p_50_avg)
+
+
+def cal_adhesion_3(file_path):
+    steps_list = list()
+    adhesion_list = list()
+
+    with open(file_path, 'r') as fin:
+        for line in fin.readlines():
+            line = line.rstrip('\n')
+            log = line.split(';')
+            batch_size = int(log[1])
+            steps_list.append(log[0])
+            adhesion = 0
+            for i in eval(log[2]):
+                adhesion += np.linalg.norm(np.array(i[0])-np.array(parse_array(log[-1])))*i[1]
+            adhesion_list.append(adhesion/batch_size)    
+
+    with open('adhesion.step', 'w') as f:
+        for item in steps_list:
+            f.write("%s,"%item)
+
+    with open('adhesion.value', 'w') as f:
+        for item in adhesion_list:
+            f.write("%s,"%item)
+
+def draw_range_error(file_path, P_number_list, AP_number_list):
+    all_error_list = []
+    for i in P_number_list:
+        data = pd.read_csv(file_path+'rewards_P_{}-regular.csv'.format(i))
+        steps_list, error_list = _draw_avg_episodes(data, 'error')
+        all_error_list.append(error_list)
+
+    all_error_array = np.array(all_error_list)
+    min_error_list = all_error_array.min(0)
+    max_error_list = all_error_array.max(0)
+    
+    fig, ax = plt.subplots()
+    ax.fill_between(steps_list, min_error_list, max_error_list, alpha=0.2)
+    
+    print(all_error_array.shape)
+    ax.plot(steps_list, np.average(all_error_array, axis=0), label="average P")
+
+    all_regret_list = []
+    for i in AP_number_list:
+        data = pd.read_csv(file_path+'rewards_AP_{}-regular.csv'.format(i))
+        steps_list, error_list = _draw_avg_episodes(data, 'error')
+        all_regret_list.append(error_list)
+
+    all_error_array = np.array(all_error_list)
+    min_error_list = all_error_array.min(0)
+    max_error_list = all_error_array.max(0)
+    
+    # fig, ax = plt.subplots()
+    ax.fill_between(steps_list, min_error_list, max_error_list, alpha=0.2)
+    
+    print(all_error_array.shape)
+    ax.plot(steps_list, np.average(all_error_array, axis=0), label="average NP")
+    plt.legend()
+    plt.show()
             
 
 # logs_file_path = os.path.join(os.getcwd(), 'output/logs/rewards_AP_1-regular')
@@ -412,14 +471,15 @@ def avg_regret(file_path):
 # plt.plot(a, b)
 # plt.show()
 
-# transitions_file_path = os.path.join(os.getcwd(), 'output/logs/rewards_P_17-regular-transitions_logs')
+# transitions_file_path = os.path.join(os.getcwd(), 'output/logs/rewards_AP_17-regular-transitions_logs')
 # episodes_evaluate(logs_file_path)
 # cal_adhesion(transitions_file_path)
 # cal_adhesion_2(transitions_file_path, [1004, 10036], 1)
 
 logs_file_path = os.path.join(os.getcwd(), 'output/logs/')
 # draw_several_episodes(logs_file_path, [i for i in range(1, 20)], [i for i in range(2, 20)])
-draw_range_chart(logs_file_path, [i for i in range(1, 20)], [i for i in range(2, 20)])
+# draw_range_chart(logs_file_path, [i for i in range(1, 20)], [i for i in range(2, 20)])
+draw_range_error(logs_file_path, [i for i in range(1, 20)], [i for i in range(2, 20)])
 # draw_several_episodes(logs_file_path, [12], "AP")
 
 # avg_regret(os.path.join(os.getcwd(), 'output/logs/'))
